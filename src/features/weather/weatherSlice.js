@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const apiKey = "f7f0f48145544647b19130539240210";
 
-// Async Thunk для получения погоды по координатам
 export const fetchWeatherByCoords = createAsyncThunk(
   "weather/fetchWeatherByCoords",
   async ({ latitude, longitude, addToHistory }, { getState }) => {
@@ -44,7 +43,7 @@ export const fetchWeatherByCoords = createAsyncThunk(
       humidity,
       longitude,
       latitude,
-      units, // Сохраняем units в weatherData
+      units,
     };
 
     if (addToHistory) {
@@ -55,7 +54,6 @@ export const fetchWeatherByCoords = createAsyncThunk(
   },
 );
 
-// Async Thunk для получения погоды по городу
 export const fetchWeatherByCity = createAsyncThunk(
   "weather/fetchWeatherByCity",
   async ({ city, addToHistory }, { getState }) => {
@@ -98,7 +96,7 @@ export const fetchWeatherByCity = createAsyncThunk(
       humidity,
       longitude: lon,
       latitude: lat,
-      units, // Сохраняем units в weatherData
+      units,
     };
 
     if (addToHistory) {
@@ -152,8 +150,8 @@ const weatherSlice = createSlice({
       }
     },
     setUsername: (state, action) => {
-      state.username = action.payload; // Сохраняем имя пользователя
-      localStorage.setItem("username", action.payload); // Сохраняем в localStorage
+      state.username = action.payload;
+      localStorage.setItem("username", action.payload);
     },
     setTheme: (state, action) => {
       state.theme = action.payload;
@@ -164,7 +162,6 @@ const weatherSlice = createSlice({
       state.units = newUnits;
       localStorage.setItem("units", newUnits);
 
-      // Проверяем, если history существует и является массивом
       if (Array.isArray(state.history)) {
         state.history = state.history.map((item) => {
           let temp = item.temp;
@@ -177,7 +174,7 @@ const weatherSlice = createSlice({
         });
       } else {
         console.warn("History is not an array", state.history);
-        state.history = []; // Восстанавливаем history если это необходимо
+        state.history = [];
       }
     },
   },
@@ -230,8 +227,5 @@ export const {
   setUnits,
   setUsername,
 } = weatherSlice.actions;
-
-// Remove this line - it's no longer needed
-// export { fetchWeatherByCoords, fetchWeatherByCity };
 
 export default weatherSlice.reducer;

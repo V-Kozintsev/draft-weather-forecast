@@ -71,6 +71,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
+    "react-router-dom": "^7.1.5",
     "storybook": "^8.5.2",
     "style-loader": "^4.0.0",
     "text-encoding": "^0.7.0",
@@ -82,8 +83,5 @@
     "extends": [
       "plugin:storybook/recommended"
     ]
-  },
-  "dependencies": {
-    "react-router-dom": "^7.1.5"
   }
 }
