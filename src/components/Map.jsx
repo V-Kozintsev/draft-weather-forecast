@@ -1,16 +1,14 @@
 import React, { useEffect, useRef } from "react";
-import * as YMap from "ymaps3"; // Use official import
-
+import * as YMap from "ymaps3";
 const Map = ({ longitude, latitude }) => {
   const mapRef = useRef(null);
-  const mapInstance = useRef(null); // Используем реф для хранения экземпляра карты
+  const mapInstance = useRef(null);
 
   useEffect(() => {
     const initMap = async () => {
       if (YMap && YMap.ready) {
         await YMap.ready;
 
-        // Создаем карту только один раз
         if (!mapInstance.current) {
           mapInstance.current = new YMap.YMap(mapRef.current, {
             location: {
@@ -21,7 +19,6 @@ const Map = ({ longitude, latitude }) => {
 
           mapInstance.current.addChild(new YMap.YMapDefaultSchemeLayer());
         } else {
-          // Если карта уже существует, меняем ее центр
           mapInstance.current.setCenter([longitude, latitude]);
         }
 
@@ -45,7 +42,7 @@ const Map = ({ longitude, latitude }) => {
     return () => {
       if (mapInstance.current) {
         mapInstance.current.destroy();
-        mapInstance.current = null; // Сбрасываем ссылку на экземпляр карты
+        mapInstance.current = null;
       }
     };
   }, [longitude, latitude]);
