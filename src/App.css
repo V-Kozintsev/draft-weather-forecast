@@ -56,7 +56,7 @@ body.dark-theme #app {
 
 h1 {
   color: var(--primary-color);
-  margin-bottom: 25px;
+  margin-bottom: 24px;
   font-size: 2.3rem;
   font-weight: 500;
   text-align: center;
