@@ -9,7 +9,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "20.17.0" # Укажите нужную версию Node.js
+          node-version: "22.13.1" # Укажите нужную версию Node.js
       - name: Install dependencies
         run: npm install
       - name: Run tests and coverage

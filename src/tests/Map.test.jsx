@@ -1,8 +1,7 @@
 import React from "react";
 import { render, cleanup } from "@testing-library/react";
-import { Map } from "../components"; // Adjust the import according to your file structure
+import { Map } from "../components";
 
-// Mock the YMap module
 const mockYMaps = {
   ready: Promise.resolve(),
   YMap: jest.fn(() => ({
@@ -12,7 +11,6 @@ const mockYMaps = {
   })),
   YMapDefaultSchemeLayer: jest.fn(),
 };
-
 jest.mock("ymaps3", () => mockYMaps);
 
 describe("Map Component", () => {

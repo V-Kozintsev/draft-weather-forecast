@@ -42,12 +42,10 @@ test("изменение настроек и сохранение их в Redux"
     initialState,
   });
 
-  // Проверяем начальные значения
   expect(getByLabelText(/Тема:/)).toHaveValue("light");
   expect(getByLabelText(/Единицы измерения:/)).toHaveValue("celsius");
   expect(getByLabelText(/Имя пользователя:/)).toHaveValue("");
 
-  // Изменяем значения
   fireEvent.change(getByLabelText(/Тема:/), { target: { value: "dark" } });
   fireEvent.change(getByLabelText(/Единицы измерения:/), {
     target: { value: "fahrenheit" },
@@ -56,10 +54,8 @@ test("изменение настроек и сохранение их в Redux"
     target: { value: "newUser" },
   });
 
-  // Сохраняем изменения
   fireEvent.click(getByRole("button", { name: /Сохранить/ }));
 
-  // Проверяем обновление состояния в Redux
   expect(getByLabelText(/Тема:/)).toHaveValue("dark");
   expect(getByLabelText(/Единицы измерения:/)).toHaveValue("fahrenheit");
   expect(getByLabelText(/Имя пользователя:/)).toHaveValue("newUser");

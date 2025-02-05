@@ -4,9 +4,9 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { MemoryRouter } from "react-router-dom"; // Импорт MemoryRouter
-import { History } from "../components"; // Убедитесь, что путь к вашему компоненту правильный
-import weatherReducer from "../features/weather/weatherSlice"; // Убедитесь в правильности импорта
+import { MemoryRouter } from "react-router-dom";
+import { History } from "../components";
+import weatherReducer from "../features/weather/weatherSlice";
 
 const mockStore = (initialState) => {
   return configureStore({
@@ -31,7 +31,7 @@ describe("History Component", () => {
       <Provider store={store}>
         <MemoryRouter>
           {" "}
-          {/* Оберните в MemoryRouter для маршрутизации */}
+          {}
           <History />
         </MemoryRouter>
       </Provider>
@@ -53,12 +53,12 @@ describe("History Component", () => {
       <Provider store={store}>
         <MemoryRouter>
           {" "}
-          {/* Оберните в MemoryRouter */}
+          {}
           <History />
         </MemoryRouter>
       </Provider>
     );
 
-    expect(getByText("История пуста")).toBeInTheDocument(); // Убедитесь, что у вас есть сообщение для пустой истории
+    expect(getByText("История пуста")).toBeInTheDocument();
   });
 });
