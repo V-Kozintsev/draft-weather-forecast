@@ -1,0 +1,777 @@
+:root {
+  --primary-color: #4caf50;
+  --secondary-color: #8bc34a;
+  --accent-color: #ffc107;
+  --background-color: #f5f5f5;
+  --text-color: #212121;
+  --light-text-color: #757575;
+  --border-color: #e0e0e0;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --font-family: "Roboto", sans-serif;
+}
+
+body.dark-theme {
+  --background-color: #303030;
+  --text-color: #fafafa;
+  --light-text-color: #bdbdbd;
+  --border-color: #505050;
+  --box-shadow-color: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+#app {
+  width: 95vw;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: var(--border-radius);
+  background-color: #fff;
+  color: var(--text-color);
+  box-shadow: 0 4px 12px var(--box-shadow-color);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+body.dark-theme #app {
+  background-color: #424242;
+}
+
+h1 {
+  color: var(--primary-color);
+  margin-bottom: 25px;
+  font-size: 2.3rem;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: -0.5px;
+  text-shadow: 0 1px 1px var(--box-shadow-color);
+  transition: color 0.3s ease;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.button,
+#home-button,
+#save-settings,
+#back-button,
+.del-history-button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  margin: 5px;
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease,
+    box-shadow 0.3s ease;
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.button:hover {
+  background-color: var(--secondary-color);
+}
+
+.button:active,
+#home-button:active,
+#save-settings:active,
+#back-button:active,
+.del-history-button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px var(--box-shadow-color);
+}
+
+#home-button {
+  background-color: var(--primary-color); /* Green */
+  color: white;
+}
+
+#home-button:hover {
+  background-color: #3e8e41;
+}
+
+/* Форма ввода */
+.search-form {
+  display: flex;
+  width: 100%;
+  margin-bottom: 25px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: 0 1px 4px var(--box-shadow-color);
+  transition: box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+body.dark-theme .search-form {
+  border-color: var(--light-text-color);
+}
+
+.input-city {
+  padding: 14px 16px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 300;
+  flex-grow: 1;
+  box-sizing: border-box;
+  outline: none;
+  color: var(--text-color);
+  background-color: transparent;
+  transition:
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.input-city::placeholder {
+  color: var(--light-text-color);
+  opacity: 0.8;
+  transition: color 0.3s ease;
+}
+
+.input-city:focus {
+  box-shadow: inset 0 1px 3px var(--box-shadow-color);
+}
+
+.btn-search {
+  padding: 14px 24px;
+  background-color: var(--accent-color);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease,
+    box-shadow 0.3s ease,
+    color 0.3s ease;
+  box-shadow: none;
+  outline: none;
+}
+
+.btn-search:hover {
+  background-color: #f0ab00;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px var(--box-shadow-color);
+}
+
+.btn-search:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px var(--box-shadow-color);
+}
+
+/* Карта */
+.map {
+  width: 100%;
+  height: 300px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+  margin-bottom: 25px;
+  box-sizing: border-box;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Информация о погоде */
+.display-weather-info {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+  text-align: center;
+  margin-bottom: 25px;
+  box-sizing: border-box;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+body.dark-theme .display-weather-info {
+  background-color: #424242;
+  border-color: #616161;
+}
+
+.weather-description {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  font-weight: 300;
+  color: var(--light-text-color);
+  transition: color 0.3s ease;
+}
+
+#weather-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+}
+
+/* История поиска */
+.history {
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+  padding: 15px;
+  margin-bottom: 25px;
+  max-height: 300px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+body.dark-theme .history {
+  background-color: #424242;
+  border-color: #616161;
+}
+
+.history p {
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--text-color);
+}
+
+body.dark-theme .history p {
+  border-bottom-color: #616161;
+}
+
+.history p:hover {
+  background-color: #eeeeee;
+}
+
+body.dark-theme .history p:hover {
+  background-color: #616161;
+  color: var(--light-text-color);
+}
+
+/* Кнопка "Удалить историю" */
+.del-history-button {
+  background-color: #f44336; /* Красный */
+  color: white;
+  font-size: 0.9rem;
+  padding: 10px 16px;
+}
+
+.del-history-button:hover {
+  background-color: #e53935;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+}
+
+/* Страница "О приложении" и Настроек */
+.about-page,
+.settings-page {
+  padding: 25px;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin: 25px auto;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+body.dark-theme .about-page,
+body.dark-theme .settings-page {
+  background-color: #424242;
+  border-color: #616161;
+}
+
+.about-page ul {
+  padding-left: 20px;
+  text-align: left;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.settings-group label {
+  font-weight: 400;
+  margin-bottom: 10px;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-theme .settings-group label {
+  color: #fafafa;
+}
+
+.settings-page select {
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: var(--text-color);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease,
+    color 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px top 50%;
+  background-size: 16px;
+  padding-right: 30px;
+}
+
+body.dark-theme .settings-page select {
+  background-color: #424242;
+  color: #fafafa;
+  border-color: #616161;
+}
+
+.settings-page select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+}
+
+#save-settings {
+  background-color: var(--primary-color); /* Зеленый для "Сохранить" */
+  color: white;
+}
+
+#back-button {
+  background-color: #607d8b; /* Сине-серый для "Назад" */
+  color: white;
+}
+
+#save-settings:hover {
+  background-color: var(--secondary-color);
+}
+
+#back-button:hover {
+  background-color: #546e7a;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader::before {
+  content: "";
+  width: 100px;
+  height: 100px;
+  border: 16px solid var(--primary-color);
+  border-top: 16px solid transparent;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.username-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--background-color);
+}
+
+.form-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px var(--box-shadow-color);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.label {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.input-username {
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  width: 100%;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-username:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease,
+    box-shadow 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.submit-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 3px var(--box-shadow-color);
+}
+.weekly-forecast {
+  display: flex;
+  overflow-x: auto; /* Горизонтальная прокрутка */
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+}
+
+.daily-forecast {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-right: 15px;
+  min-width: 150px; /* Устанавливаем минимальную ширину для каждого элемента */
+  text-align: center;
+  box-shadow: 0 1px 3px var(--box-shadow-color);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.daily-forecast:hover {
+  transform: translateY(-2px); /* Поднимаем карточку при наведении */
+  box-shadow: 0 3px 8px var(--box-shadow-color);
+}
+
+.forecast-date {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.forecast-temperature {
+  font-size: 1.5rem;
+  margin: 5px 0;
+}
+
+.forecast-icon {
+  width: 50px; /* Задаем размер иконок */
+  height: 50px;
+}
+.displayWeatherInfo {
+  display: flex;
+  flex-direction: column; /* Устанавливаем вертикальную ориентацию */
+  align-items: center; /* Центрируем элементы по горизонтали */
+  justify-content: center; /* Центрируем элементы по вертикали */
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--box-shadow-color);
+  text-align: center; /* Центрируем текст внутри */
+  margin-bottom: 25px;
+  box-sizing: border-box;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+#about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Центрирует содержимое */
+  padding: 20px;
+  background-color: #f9f9f9; /* Светлый фон страницы */
+  border-radius: 8px; /* Скругленные углы */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Легкая тень */
+  margin: 20px auto; /* Отступ для центрирования */
+  max-width: 600px; /* Максимальная ширина для удобства чтения */
+}
+
+h2 {
+  color: #333; /* Темный цвет заголовка для контраста */
+  font-size: 24px; /* Размер заголовка */
+  margin-bottom: 20px; /* Отступ снизу */
+}
+
+p {
+  color: #555; /* Серый цвет для текста */
+  line-height: 1.6; /* Интерлиньяж для лучшей читаемости */
+  margin: 10px 0; /* Отступы между абзацами */
+}
+
+ul {
+  list-style-type: none; /* Убираем стандартные маркеры списков */
+  padding: 0; /* Убираем отступы списка */
+  margin: 10px 0; /* Отступы для списка */
+}
+
+li {
+  background-color: #e3f2fd; /* Легкий синий фон для пунктов списка */
+  padding: 8px 12px; /* Внутренние отступы */
+  border-radius: 4px; /* Скругление углов */
+  margin: 6px 0; /* Отступ между элементами списка */
+}
+
+a {
+  color: #1976d2; /* Синий цвет для ссылок */
+  text-decoration: none; /* Убираем подчеркивание */
+}
+
+a:hover {
+  text-decoration: underline; /* Подчеркивание при наведении */
+}
+
+.forecast-wind,
+.forecast-humidity {
+  font-size: 0.9rem;
+  color: var(--light-text-color);
+}
+/* Адаптивность */
+/* Для средних экранов (планшеты) */
+@media (max-width: 768px) {
+  #app {
+    padding: 20px;
+    margin: 15px auto;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .button-wrapper {
+    margin-bottom: 20px;
+  }
+
+  .button,
+  #home-button,
+  #save-settings,
+  #back-button {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+  }
+
+  .search-form {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .input-city {
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+
+  .btn-search {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+
+  .map {
+    height: 250px;
+    margin-bottom: 20px;
+  }
+
+  .display-weather-info {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .weather-description {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #weather-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .history {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  .history p {
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  .del-history-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  .about-page,
+  .settings-page {
+    padding: 20px;
+    margin: 15px auto;
+  }
+}
+
+/* Для маленьких экранов (телефоны) */
+@media (max-width: 576px) {
+  #app {
+    width: 100vw;
+    padding: 15px;
+    margin: 10px auto;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+    margin-bottom: 15px;
+  }
+
+  .button,
+  #home-button,
+  #save-settings,
+  #back-button {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    margin: 3px;
+  }
+
+  .search-form {
+    margin-bottom: 20px;
+  }
+
+  .input-city {
+    font-size: 0.9rem;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .btn-search {
+    font-size: 0.9rem;
+    padding: 12px 16px;
+  }
+
+  .map {
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  .display-weather-info {
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+
+  .weather-description {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  #weather-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .history {
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .history p {
+    padding: 8px;
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+  }
+
+  .del-history-button {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+
+  .about-page,
+  .settings-page {
+    padding: 15px;
+    margin: 15px auto;
+  }
+}

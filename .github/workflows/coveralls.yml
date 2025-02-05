@@ -1,0 +1,20 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20.17.0" # Укажите нужную версию Node.js
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests and coverage
+        run: npm run test -- --coverage # Подразумевается, что вы используете jest
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v2.3.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
