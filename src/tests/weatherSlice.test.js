@@ -117,7 +117,7 @@ describe("weatherSlice", () => {
     await store.dispatch(thunk);
 
     const state = store.getState().weather;
-    expect(state.loading).toBe(false); // загрузка завершена
-    expect(state.error).not.toBeNull(); // ошибка должна быть установлена
+    expect(state.loading).toBe(false);
+    expect(state.error).not.toBeNull();
   });
 });
