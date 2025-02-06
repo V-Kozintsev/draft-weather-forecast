@@ -3,7 +3,7 @@ import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { Map } from "../components";
 
-jest.mock(
+/* jest.mock(
   "ymaps3",
   () => ({
     ready: Promise.resolve(),
@@ -15,7 +15,7 @@ jest.mock(
     YMapDefaultSchemeLayer: jest.fn(),
   }),
   { virtual: true }
-);
+); */
 
 describe("Map Component", () => {
   afterEach(cleanup);
