@@ -1,12 +1,17 @@
-// History.test.jsx
-
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { MemoryRouter } from "react-router-dom";
 import { History } from "../components";
-import weatherReducer from "../features/weather/weatherSlice";
+import weatherReducer, {
+  deleteHistory,
+} from "../features/weather/weatherSlice";
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: jest.fn(),
+}));
 
 const mockStore = (initialState) => {
   return configureStore({
@@ -27,18 +32,16 @@ describe("History Component", () => {
     };
 
     const store = mockStore(initialState);
-    const { getByText } = render(
+    render(
       <Provider store={store}>
         <MemoryRouter>
-          {" "}
-          {}
           <History />
         </MemoryRouter>
       </Provider>
     );
 
-    expect(getByText("Москва: 25°C")).toBeInTheDocument();
-    expect(getByText("Нью-Йорк: 77°F")).toBeInTheDocument();
+    expect(screen.getByText("Москва: 25°C")).toBeInTheDocument();
+    expect(screen.getByText("Нью-Йорк: 77°F")).toBeInTheDocument();
   });
 
   it("renders empty history message when history is empty", () => {
@@ -49,16 +52,36 @@ describe("History Component", () => {
     };
 
     const store = mockStore(initialState);
-    const { getByText } = render(
+    render(
       <Provider store={store}>
         <MemoryRouter>
-          {" "}
-          {}
           <History />
         </MemoryRouter>
       </Provider>
     );
 
-    expect(getByText("История пуста")).toBeInTheDocument();
+    expect(screen.getByText("История пуста")).toBeInTheDocument();
+  });
+
+  it("dispatches deleteHistory action when delete button is clicked", () => {
+    const initialState = {
+      weather: {
+        history: [{ city: "Москва", temp: 25, units: "celsius" }],
+      },
+    };
+    const store = mockStore(initialState);
+    store.dispatch = jest.fn(); // Mock dispatch function
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <History />
+        </MemoryRouter>
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByText("Удалить историю"));
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(deleteHistory());
   });
 });

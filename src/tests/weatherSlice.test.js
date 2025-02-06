@@ -1,4 +1,4 @@
-// weatherSlice.test.js
+//файл weatherSlice.test.js
 import { configureStore } from "@reduxjs/toolkit";
 import weatherReducer, {
   fetchWeatherByCoords,
@@ -57,10 +57,10 @@ describe("weatherSlice", () => {
     };
 
     store.dispatch(addCityToHistory(newCity));
-    store.dispatch(addCityToHistory(newCity)); // добавляем снова
+    store.dispatch(addCityToHistory(newCity));
 
     const state = store.getState().weather;
-    expect(state.history.length).toBe(1); // должно остаться 1
+    expect(state.history.length).toBe(1);
   });
 
   test("should handle deleteHistory", () => {
@@ -76,37 +76,34 @@ describe("weatherSlice", () => {
     store.dispatch(deleteHistory());
 
     const state = store.getState().weather;
-    expect(state.history).toEqual([]); // история должна быть пустой
+    expect(state.history).toEqual([]);
   });
 
   test("should handle setTheme", () => {
     store.dispatch(setTheme("dark"));
     const state = store.getState().weather;
-    expect(state.theme).toBe("dark"); // тема должна измениться на 'dark'
+    expect(state.theme).toBe("dark");
   });
 
   test("should handle setUnits", () => {
     store.dispatch(setUnits("fahrenheit"));
     const state = store.getState().weather;
-    expect(state.units).toBe("fahrenheit"); // единицы измерения должны измениться на 'fahrenheit'
+    expect(state.units).toBe("fahrenheit");
   });
 
   test("should handle setUsername", () => {
     store.dispatch(setUsername("JohnDoe"));
     const state = store.getState().weather;
-    expect(state.username).toBe("JohnDoe"); // имя пользователя должно измениться
+    expect(state.username).toBe("JohnDoe");
   });
 
-  // Здесь мы будем тестировать асинхронные действия.
-
-  // Тестируем обработку ошибок
   test("fetchWeatherByCoords should handle errors", async () => {
     const thunk = fetchWeatherByCoords({ latitude: 999, longitude: 999 });
     await store.dispatch(thunk);
 
     const state = store.getState().weather;
-    expect(state.loading).toBe(false); // загрузка завершена
-    expect(state.error).not.toBeNull(); // ошибка должна быть установлена
+    expect(state.loading).toBe(false);
+    expect(state.error).not.toBeNull();
   });
 
   test("fetchWeatherByCity should handle errors", async () => {
