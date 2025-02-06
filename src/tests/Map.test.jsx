@@ -1,6 +1,22 @@
+// Map.test.jsx
 import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { Map } from "../components";
+
+// Mock Yandex Maps API
+jest.mock(
+  "ymaps3",
+  () => ({
+    ready: Promise.resolve(),
+    YMap: jest.fn(() => ({
+      setCenter: jest.fn(),
+      addChild: jest.fn(),
+      destroy: jest.fn(),
+    })),
+    YMapDefaultSchemeLayer: jest.fn(),
+  }),
+  { virtual: true }
+);
 
 describe("Map Component", () => {
   afterEach(cleanup);
