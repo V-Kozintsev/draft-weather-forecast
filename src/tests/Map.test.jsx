@@ -2,17 +2,6 @@ import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { Map } from "../components";
 
-const mockYMaps = {
-  ready: Promise.resolve(),
-  YMap: jest.fn(() => ({
-    setCenter: jest.fn(),
-    addChild: jest.fn(),
-    destroy: jest.fn(),
-  })),
-  YMapDefaultSchemeLayer: jest.fn(),
-};
-jest.mock("ymaps3", () => mockYMaps);
-
 describe("Map Component", () => {
   afterEach(cleanup);
 
