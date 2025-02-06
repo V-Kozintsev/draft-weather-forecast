@@ -3,7 +3,6 @@ import React from "react";
 import { render, cleanup } from "@testing-library/react";
 import { Map } from "../components";
 
-// Mock Yandex Maps API
 jest.mock(
   "ymaps3",
   () => ({
