@@ -5,7 +5,7 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-global.ymaps3 = {
+/* global.ymaps3 = {
   ready: Promise.resolve(),
   YMap: jest.fn(() => ({
     setCenter: jest.fn(),
@@ -14,3 +14,4 @@ global.ymaps3 = {
   })),
   YMapDefaultSchemeLayer: jest.fn(),
 };
+ */

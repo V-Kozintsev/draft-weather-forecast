@@ -1,32 +1,40 @@
+// src/components/Map.jsx
 import React, { useEffect, useRef } from "react";
-import * as YMap from "ymaps3";
+
 const Map = ({ longitude, latitude }) => {
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
+  let YMap;
 
   useEffect(() => {
     const initMap = async () => {
-      if (YMap && YMap.ready) {
-        await YMap.ready;
+      if (process.env.NODE_ENV !== "test") {
+        YMap = await import("ymaps3");
+        if (YMap && YMap.ready) {
+          await YMap.ready;
 
-        if (!mapInstance.current) {
-          mapInstance.current = new YMap.YMap(mapRef.current, {
-            location: {
-              center: [longitude, latitude],
-              zoom: 10,
-            },
-          });
+          if (!mapInstance.current) {
+            mapInstance.current = new YMap.YMap(mapRef.current, {
+              location: {
+                center: [longitude, latitude],
+                zoom: 10,
+              },
+            });
 
-          mapInstance.current.addChild(new YMap.YMapDefaultSchemeLayer());
+            mapInstance.current.addChild(new YMap.YMapDefaultSchemeLayer());
+          } else {
+            mapInstance.current.setCenter([longitude, latitude]);
+          }
+
+          return mapInstance.current;
         } else {
-          mapInstance.current.setCenter([longitude, latitude]);
+          console.error(
+            "YMap.ready is undefined. Check if Yandex Maps API is correctly loaded."
+          );
+          return null;
         }
-
-        return mapInstance.current;
       } else {
-        console.error(
-          "YMap.ready is undefined. Check if Yandex Maps API is correctly loaded."
-        );
+        console.warn("YMap is not loaded in test environment");
         return null;
       }
     };
