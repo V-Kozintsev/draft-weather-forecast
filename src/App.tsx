@@ -299,7 +299,7 @@ export default function App() {
             Реальные данные, ясный интерфейс
           </div>
           <a
-            href="https://github.com/V-Kozintsev/draft-weather-forecast"
+            href="https://github.com/V-Kozintsev/atmos-weather"
             target="_blank"
             rel="noreferrer"
           >

@@ -1,6 +1,6 @@
 # Atmos — погода в деталях
 
-[Открыть приложение →](https://v-kozintsev.github.io/draft-weather-forecast/)
+[Открыть приложение →](https://v-kozintsev.github.io/atmos-weather/)
 
 Погодная панель, с которой можно строить планы: сейчас, следующие 24 часа и неделя впереди.
 
