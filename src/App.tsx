@@ -24,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import Search from "./components/Search";
+import AppInstall from "./components/AppInstall";
 import PanelHeading from "./components/PanelHeading";
 import ForecastChart from "./components/ForecastChart";
 import WeatherIcon from "./components/WeatherIcon";
@@ -315,6 +316,7 @@ export default function App() {
             Погода в деталях<span>Ваш день. Ваш ритм.</span>
           </div>
           <Search onSelect={selectCity} />
+          <AppInstall />
           <button
             className="location-button"
             onClick={locate}

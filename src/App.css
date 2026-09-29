@@ -12,6 +12,8 @@
   --muted: #98a6b4;
   --line: #303b48;
   color-scheme: dark;
+  font-size: 16px;
+  line-height: 1.5;
 }
 * {
   box-sizing: border-box;
@@ -70,7 +72,7 @@ p {
   margin: 0;
 }
 h2 {
-  font-size: 17px;
+  font-size: 1.375rem;
   letter-spacing: -0.5px;
   font-weight: 650;
 }
@@ -86,7 +88,7 @@ small {
   min-height: 100vh;
   margin: auto;
   display: grid;
-  grid-template-columns: 218px minmax(0, 1fr);
+  grid-template-columns: 250px minmax(0, 1fr);
 }
 .skip-link {
   position: fixed;
@@ -135,7 +137,7 @@ small {
   margin: 42px 0 32px;
 }
 .eyebrow {
-  font-size: 10px;
+  font-size: 0.875rem;
   font-weight: 650;
   letter-spacing: 1.6px;
   color: var(--muted);
@@ -145,12 +147,12 @@ small {
   text-transform: uppercase;
 }
 .sidebar-intro .eyebrow {
-  font-size: 8px;
+  font-size: 0.75rem;
   letter-spacing: 1.1px;
 }
 .sidebar-intro p {
   margin-top: 12px;
-  font-size: 19px;
+  font-size: 1.5rem;
   line-height: 1.5;
   letter-spacing: -0.5px;
 }
@@ -162,7 +164,7 @@ small {
   display: flex;
   align-items: center;
   gap: 11px;
-  font-size: 12px;
+  font-size: 1rem;
   padding: 13px 10px;
   border-radius: 10px;
   color: var(--muted);
@@ -185,13 +187,13 @@ small {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 9px;
+  font-size: 0.8125rem;
   letter-spacing: 1.8px;
   color: var(--muted);
   margin-bottom: 17px;
 }
 .empty-favorites {
-  font-size: 10px;
+  font-size: 0.875rem;
   line-height: 1.9;
   color: var(--muted);
 }
@@ -207,7 +209,7 @@ small {
   gap: 8px;
   padding: 9px 2px;
   text-align: left;
-  font-size: 11px;
+  font-size: 0.9375rem;
   flex: 1;
   min-width: 0;
 }
@@ -221,7 +223,7 @@ small {
 .sidebar-bottom {
   margin-top: auto;
   padding-top: 30px;
-  font-size: 9px;
+  font-size: 0.8125rem;
   color: var(--muted);
 }
 .live-note {
@@ -243,7 +245,7 @@ small {
   align-items: center;
   gap: 8px;
   padding-top: 20px;
-  font-size: 11px;
+  font-size: 0.9375rem;
 }
 .sidebar-bottom > a svg:last-child {
   margin-left: auto;
@@ -252,7 +254,7 @@ small {
   min-width: 0;
 }
 .topbar {
-  height: 99px;
+  min-height: 99px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -260,13 +262,13 @@ small {
   padding: 0 38px;
 }
 .topbar-label {
-  font-size: 12px;
+  font-size: 1rem;
   font-weight: 600;
   margin-right: auto;
 }
 .topbar-label span {
   display: block;
-  font-size: 10px;
+  font-size: 0.875rem;
   color: var(--muted);
   margin-top: 4px;
   font-weight: 400;
@@ -281,7 +283,8 @@ small {
   padding: 0 13px;
   gap: 10px;
   width: 280px;
-  height: 41px;
+  height: 46px;
+  min-width: 120px;
   color: var(--muted);
 }
 .search input {
@@ -291,7 +294,7 @@ small {
   outline: 0;
   background: transparent;
   color: var(--text);
-  font-size: 11px;
+  font-size: 0.9375rem;
 }
 .search:focus-within {
   border-color: var(--accent);
@@ -329,7 +332,7 @@ small {
   display: flex;
   gap: 8px;
   padding: 20px;
-  font-size: 11px;
+  font-size: 0.9375rem;
 }
 .search-results ul {
   margin: 0;
@@ -350,12 +353,12 @@ small {
   background: var(--line);
 }
 .search-results strong {
-  font-size: 12px;
+  font-size: 1rem;
   display: block;
   color: var(--text);
 }
 .search-results small {
-  font-size: 10px;
+  font-size: 0.875rem;
   display: block;
   margin-top: 3px;
   line-height: 1.5;
@@ -365,7 +368,7 @@ small {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 0.9375rem;
   padding: 12px 6px;
   color: var(--muted);
   white-space: nowrap;
@@ -381,7 +384,7 @@ small {
   border: 1px solid var(--line);
 }
 .units button {
-  font-size: 12px;
+  font-size: 1rem;
   padding: 6px 9px;
   border-radius: 6px;
   color: var(--muted);
@@ -404,10 +407,10 @@ main {
 }
 .page-heading .eyebrow {
   letter-spacing: 1.1px;
-  font-size: 9px;
+  font-size: 0.8125rem;
 }
 .page-heading h1 {
-  font-size: 35px;
+  font-size: 2.5rem;
   letter-spacing: -1.6px;
   font-weight: 650;
   margin: 7px 0;
@@ -418,7 +421,7 @@ main {
   color: var(--accent);
 }
 .page-heading p {
-  font-size: 11px;
+  font-size: 0.9375rem;
   color: var(--muted);
   text-transform: capitalize;
 }
@@ -428,7 +431,7 @@ main {
   gap: 8px;
 }
 .update-status {
-  font-size: 9px;
+  font-size: 0.8125rem;
   color: var(--muted);
   margin-right: 8px;
   white-space: nowrap;
@@ -452,7 +455,7 @@ main {
   border: 1px solid var(--line);
   color: var(--muted);
   border-radius: 24px;
-  font-size: 10px;
+  font-size: 0.875rem;
   white-space: nowrap;
 }
 .city-shortcuts .selected,
@@ -487,7 +490,7 @@ main {
   color: var(--muted);
 }
 .panel-heading .eyebrow {
-  font-size: 8px;
+  font-size: 0.75rem;
   letter-spacing: 1.4px;
 }
 .small-badge {
@@ -495,7 +498,7 @@ main {
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 0.8125rem;
   white-space: nowrap;
 }
 .current-card {
@@ -519,7 +522,7 @@ main {
 }
 .current-card .eyebrow {
   color: #c8d8cd;
-  font-size: 8px;
+  font-size: 0.75rem;
 }
 .favorite {
   color: #c8d8cd;
@@ -545,12 +548,12 @@ main {
   font-weight: 300;
 }
 .current-main h2 {
-  font-size: 17px;
+  font-size: 1.375rem;
   letter-spacing: -0.3px;
   margin-top: 7px;
 }
 .current-main p {
-  font-size: 10px;
+  font-size: 0.875rem;
   color: #d1dcd4;
   margin-top: 7px;
   line-height: 1.8;
@@ -571,12 +574,12 @@ main {
 .current-bottom > span {
   display: flex;
   gap: 6px;
-  font-size: 10px;
+  font-size: 0.875rem;
   align-items: center;
   color: #d2ded8;
 }
 .current-bottom > span:last-child {
-  font-size: 9px;
+  font-size: 0.8125rem;
 }
 .weather-art {
   position: absolute;
@@ -637,25 +640,25 @@ main {
 .metric > span {
   color: var(--muted);
   display: block;
-  font-size: 10px;
+  font-size: 0.875rem;
   margin-bottom: 7px;
 }
 .metric > strong {
-  font-size: 26px;
+  font-size: 2rem;
   display: block;
   font-weight: 600;
   letter-spacing: -1px;
   line-height: 1.2;
 }
 .metric > strong small {
-  font-size: 10px;
+  font-size: 0.875rem;
   color: var(--muted);
   margin-left: 5px;
   letter-spacing: 0;
   font-weight: 400;
 }
 .metric > p {
-  font-size: 9px;
+  font-size: 0.8125rem;
   color: var(--muted);
   margin-top: 7px;
   line-height: 1.5;
@@ -663,7 +666,7 @@ main {
 .wind-arrow {
   display: inline-block;
   color: var(--accent);
-  font-size: 14px;
+  font-size: 1.125rem;
   margin-right: 3px;
 }
 .metric-meter {
@@ -698,6 +701,7 @@ main {
   gap: 10px;
   align-items: center;
   min-height: 41px;
+  flex-wrap: wrap;
 }
 .segmented {
   display: flex;
@@ -710,7 +714,7 @@ main {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 9px;
+  font-size: 0.8125rem;
   padding: 7px 8px;
   border-radius: 6px;
   color: var(--muted);
@@ -726,16 +730,16 @@ main {
   white-space: nowrap;
 }
 .chart-reading > span {
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .chart-reading > strong {
-  font-size: 18px;
+  font-size: 1.5rem;
   font-weight: 550;
   letter-spacing: -0.5px;
 }
 .chart-reading small {
-  font-size: 9px;
+  font-size: 0.8125rem;
   margin-left: 4px;
   color: var(--muted);
 }
@@ -758,8 +762,11 @@ main {
   stroke-dasharray: 4 5;
 }
 .hour-strip {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(60px, 1fr));
   gap: 1px;
   margin: 4px -8px 0;
 }
@@ -776,7 +783,7 @@ main {
   background: var(--panel-raised);
 }
 .hour-strip button > span:first-child {
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .hour-strip .weather-icon {
@@ -785,14 +792,14 @@ main {
   color: #d9dbaa;
 }
 .hour-strip strong {
-  font-size: 12px;
+  font-size: 1rem;
   font-weight: 550;
 }
 .hour-strip strong small {
   color: var(--muted);
 }
 .hour-strip .rain-label {
-  font-size: 7px;
+  font-size: 0.75rem;
   color: #95b8d4;
   display: flex;
   align-items: center;
@@ -803,7 +810,7 @@ main {
   margin-top: 11px;
   padding-top: 13px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 0.8125rem;
   line-height: 1.6;
 }
 .week-panel .panel-heading {
@@ -820,7 +827,7 @@ main {
   width: 100%;
   padding: 8px 7px;
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 0.875rem;
   text-align: left;
 }
 .day-row:hover,
@@ -831,12 +838,13 @@ main {
   color: var(--accent);
 }
 .day-name {
-  width: 58px;
-  font-size: 10px;
+  width: 70px;
+  flex-shrink: 0;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 .day-name small {
-  font-size: 8px;
+  font-size: 0.75rem;
   font-weight: 400;
   display: block;
   color: var(--muted);
@@ -848,9 +856,10 @@ main {
   color: #d1d6b3;
 }
 .day-rain {
-  font-size: 8px;
+  font-size: 0.75rem;
   color: #95b8d4;
-  width: 26px;
+  width: 36px;
+  flex-shrink: 0;
 }
 .day-range {
   margin-left: auto;
@@ -859,7 +868,7 @@ main {
   gap: 8px;
   flex: 1;
   max-width: 160px;
-  font-size: 10px;
+  font-size: 0.875rem;
 }
 .day-range > span:first-child {
   color: var(--muted);
@@ -888,7 +897,7 @@ main {
 }
 .subtle-caption {
   color: var(--muted);
-  font-size: 8px;
+  font-size: 0.75rem;
   line-height: 1.6;
 }
 .week-panel .subtle-caption {
@@ -907,10 +916,10 @@ main {
   margin-bottom: 20px;
 }
 .insights-grid h2 {
-  font-size: 14px;
+  font-size: 1.125rem;
 }
 .insights-grid .eyebrow {
-  font-size: 7px;
+  font-size: 0.75rem;
   letter-spacing: 1.1px;
 }
 .activity-tabs {
@@ -925,7 +934,7 @@ main {
   padding: 7px 8px;
   border: 1px solid var(--line);
   color: var(--muted);
-  font-size: 8px;
+  font-size: 0.75rem;
   border-radius: 7px;
 }
 .activity-tabs .selected {
@@ -951,22 +960,22 @@ main {
   flex-shrink: 0;
 }
 .planner-result .eyebrow {
-  font-size: 7px;
+  font-size: 0.75rem;
 }
 .planner-result strong {
   display: block;
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: -0.3px;
   margin: 6px 0;
 }
 .planner-result p {
-  font-size: 9px;
+  font-size: 0.8125rem;
   line-height: 1.7;
   color: var(--muted);
 }
 details {
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 summary {
@@ -990,13 +999,13 @@ details p {
 }
 .air-reading small {
   display: block;
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
   letter-spacing: 1px;
   margin-top: 1px;
 }
 .air-reading > span {
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--accent);
   background: #d5ef9c0a;
   padding: 6px 8px;
@@ -1034,16 +1043,17 @@ details p {
   display: flex;
   justify-content: space-between;
   gap: 5px;
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
   margin-bottom: 13px;
+  flex-wrap: wrap;
 }
 .air-foot strong {
   color: var(--text);
   font-weight: 500;
 }
 .air-unavailable {
-  font-size: 11px;
+  font-size: 0.9375rem;
   color: var(--muted);
   line-height: 1.8;
   min-height: 143px;
@@ -1066,14 +1076,14 @@ details p {
   left: 50%;
   top: 52px;
   transform: translateX(-50%);
-  font-size: 15px;
+  font-size: 1.25rem;
   white-space: nowrap;
   text-align: center;
 }
 .sun-arc small {
   display: block;
   color: var(--muted);
-  font-size: 8px;
+  font-size: 0.75rem;
   margin-top: 6px;
 }
 .sun-times {
@@ -1091,13 +1101,13 @@ details p {
   color: var(--muted);
 }
 .sun-times span {
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 .sun-times strong {
   display: block;
   color: var(--text);
-  font-size: 12px;
+  font-size: 1rem;
   margin-top: 4px;
   font-weight: 550;
 }
@@ -1105,7 +1115,7 @@ details p {
   display: flex;
   gap: 7px;
   align-items: center;
-  font-size: 8px;
+  font-size: 0.75rem;
   color: var(--muted);
   padding: 20px 0 0;
   line-height: 1.7;
@@ -1121,12 +1131,12 @@ footer {
   justify-content: space-between;
   align-items: center;
   gap: 15px;
-  font-size: 19px;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: -1px;
 }
 footer small {
-  font-size: 8px;
+  font-size: 0.75rem;
   letter-spacing: 0;
   font-weight: 400;
   color: var(--muted);
@@ -1135,7 +1145,7 @@ footer small {
 footer > div {
   display: flex;
   gap: 18px;
-  font-size: 8px;
+  font-size: 0.75rem;
   letter-spacing: 0;
   font-weight: 400;
   color: var(--muted);
@@ -1166,7 +1176,7 @@ footer strong {
   align-items: center;
   border-radius: 12px;
   z-index: 50;
-  font-size: 12px;
+  font-size: 1rem;
   max-width: calc(100% - 32px);
   width: max-content;
 }
@@ -1183,14 +1193,14 @@ footer strong {
   background: #e4bc8310;
   color: #e4bc83;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 0.9375rem;
   margin-bottom: 18px;
 }
 .error-banner button {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 0.9375rem;
   padding: 8px;
   border-radius: 8px;
 }
@@ -1201,12 +1211,12 @@ footer strong {
 }
 .loading-dashboard h2,
 .empty-state h2 {
-  font-size: 24px;
+  font-size: 1.75rem;
   margin: 25px 0 10px;
 }
 .loading-dashboard p,
 .empty-state p {
-  font-size: 12px;
+  font-size: 1rem;
   color: var(--muted);
   line-height: 1.8;
 }
@@ -1279,22 +1289,22 @@ footer strong {
     gap: 34px;
   }
   .metric > strong {
-    font-size: 30px;
+    font-size: 2.125rem;
   }
   .chart-container {
     height: 165px;
   }
   .hour-strip button > span:first-child {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .hour-strip strong {
-    font-size: 14px;
+    font-size: 1.125rem;
   }
   .panel-heading h2 {
-    font-size: 19px;
+    font-size: 1.5rem;
   }
   .insights-grid h2 {
-    font-size: 16px;
+    font-size: 1.25rem;
   }
   .day-row {
     padding: 11px 8px;
@@ -1307,8 +1317,11 @@ footer strong {
   }
 }
 @media (max-width: 1250px) {
+  .topbar-label {
+    display: none;
+  }
   .app-shell {
-    grid-template-columns: 180px minmax(0, 1fr);
+    grid-template-columns: 230px minmax(0, 1fr);
   }
   .sidebar {
     padding: 30px 17px;
@@ -1320,11 +1333,11 @@ footer strong {
     width: 26px;
   }
   .sidebar-intro p {
-    font-size: 17px;
+    font-size: 1.375rem;
   }
   .nav-item {
     padding: 12px 6px;
-    font-size: 11px;
+    font-size: 0.9375rem;
     gap: 8px;
   }
   .topbar {
@@ -1338,7 +1351,7 @@ footer strong {
     padding: 28px 25px 20px;
   }
   .page-heading h1 {
-    font-size: 30px;
+    font-size: 2.125rem;
   }
   .search {
     width: 230px;
@@ -1347,7 +1360,7 @@ footer strong {
     padding: 20px;
   }
   .panel-heading h2 {
-    font-size: 15px;
+    font-size: 1.25rem;
   }
   .overview-grid {
     grid-template-columns: 1fr 1fr;
@@ -1402,7 +1415,7 @@ footer strong {
     margin: 0;
   }
   .sun-times strong {
-    font-size: 16px;
+    font-size: 1.25rem;
   }
   footer {
     margin: 0 25px;
@@ -1423,11 +1436,13 @@ footer strong {
     padding: 0 25px;
   }
   .topbar-label {
-    font-size: 17px;
+    display: block;
+    font-size: 1.375rem;
     letter-spacing: -0.6px;
   }
   .topbar-label:before {
     content: "atmos.";
+    font-size: 1.375rem;
     color: var(--accent);
     font-weight: 700;
     display: block;
@@ -1442,10 +1457,10 @@ footer strong {
     grid-template-columns: minmax(0, 1.5fr) minmax(310px, 1fr);
   }
   .insights-grid {
-    grid-template-columns: 1.3fr 1fr 1fr;
+    grid-template-columns: 1.3fr 1fr;
   }
   .sun-panel {
-    grid-column: auto;
+    grid-column: 1/-1;
     display: block;
   }
   .sun-panel .panel-heading {
@@ -1461,13 +1476,16 @@ footer strong {
     margin-top: 13px;
   }
   .sun-times strong {
-    font-size: 12px;
+    font-size: 1rem;
   }
   .hour-strip {
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
     gap: 0;
   }
   .update-status {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
 }
 @media (max-width: 850px) {
@@ -1482,17 +1500,17 @@ footer strong {
     padding: 12px 0;
   }
   .hour-strip button > span:first-child {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .hour-strip .weather-icon {
     width: 25px;
     height: 25px;
   }
   .hour-strip strong {
-    font-size: 14px;
+    font-size: 1.125rem;
   }
   .hour-strip .rain-label {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .chart-tools .segmented svg {
     display: block;
@@ -1531,10 +1549,10 @@ footer strong {
     margin: 0;
   }
   .sun-times strong {
-    font-size: 15px;
+    font-size: 1.25rem;
   }
   .panel-heading h2 {
-    font-size: 17px;
+    font-size: 1.375rem;
   }
 }
 @media (max-width: 600px) {
@@ -1545,44 +1563,44 @@ footer strong {
     height: auto;
     padding: 18px;
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto auto auto;
     gap: 12px;
   }
   .topbar-label {
     order: 0;
   }
   .location-button {
-    order: 1;
+    order: 2;
     padding: 7px 0;
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .units {
-    order: 2;
+    order: 3;
   }
   .search {
-    order: 3;
+    order: 4;
     width: 100%;
     grid-column: 1/-1;
     height: 44px;
   }
   .search input {
-    font-size: 13px;
+    font-size: 1rem;
   }
   .search-results strong {
-    font-size: 14px;
+    font-size: 1.125rem;
   }
   .search-results small {
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .search-results > p {
-    font-size: 12px;
+    font-size: 1rem;
   }
   .topbar-label:before {
     font-size: 25px;
     letter-spacing: -1px;
   }
   .units button {
-    font-size: 13px;
+    font-size: 1rem;
   }
   .location-button span {
     display: inline;
@@ -1594,12 +1612,12 @@ footer strong {
     align-items: flex-start;
   }
   .page-heading h1 {
-    font-size: 30px;
+    font-size: 2.125rem;
     letter-spacing: -1px;
     margin-top: 10px;
   }
   .page-heading .eyebrow {
-    font-size: 8px;
+    font-size: 0.75rem;
     max-width: 220px;
     line-height: 1.7;
     align-items: flex-start;
@@ -1618,7 +1636,7 @@ footer strong {
   .update-status {
     width: 100%;
     margin: 0;
-    font-size: 7px;
+    font-size: 0.75rem;
     text-align: right;
     white-space: normal;
     order: 3;
@@ -1629,14 +1647,14 @@ footer strong {
     height: 35px;
   }
   .page-heading p {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .city-shortcuts {
     gap: 7px;
     margin: 20px 0;
   }
   .city-shortcuts button {
-    font-size: 10px;
+    font-size: 0.875rem;
     padding: 7px 10px;
   }
   .overview-grid {
@@ -1662,11 +1680,11 @@ footer strong {
     top: 40px;
   }
   .current-bottom > span:last-child {
-    display: flex;
-    font-size: 8px;
+    display: none;
+    font-size: 0.75rem;
   }
   .current-bottom > span {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .details-panel {
     padding: 22px;
@@ -1681,22 +1699,22 @@ footer strong {
     padding-left: 29px;
   }
   .metric > span {
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .metric > strong {
-    font-size: 27px;
+    font-size: 2rem;
   }
   .metric > p {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .metric > strong small {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .panel-heading .eyebrow {
-    font-size: 8px;
+    font-size: 0.75rem;
   }
   .panel-heading h2 {
-    font-size: 17px;
+    font-size: 1.375rem;
   }
   .forecast-grid {
     gap: 14px;
@@ -1709,7 +1727,7 @@ footer strong {
     gap: 6px;
   }
   .segmented button {
-    font-size: 9px;
+    font-size: 0.8125rem;
     padding: 7px 7px;
   }
   .chart-tools .segmented svg {
@@ -1720,7 +1738,10 @@ footer strong {
     margin-top: 17px;
   }
   .hour-strip {
-    grid-template-columns: repeat(12, 46px);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+    grid-template-columns: repeat(12, 60px);
     overflow-x: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--line) transparent;
@@ -1733,20 +1754,20 @@ footer strong {
     padding: 10px 2px;
   }
   .hour-strip button > span:first-child {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .hour-strip .weather-icon {
     width: 22px;
     height: 22px;
   }
   .hour-strip strong {
-    font-size: 13px;
+    font-size: 1rem;
   }
   .hour-strip .rain-label {
-    font-size: 8px;
+    font-size: 0.75rem;
   }
   .chart-caption {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .week-panel {
     padding: 22px 17px;
@@ -1759,34 +1780,34 @@ footer strong {
     grid-column: auto;
   }
   .day-row {
-    font-size: 12px;
+    font-size: 1rem;
     padding: 10px 9px;
-    gap: 18px;
+    gap: 8px;
   }
   .day-name {
-    font-size: 12px;
-    width: 65px;
+    font-size: 1rem;
+    width: 70px;
   }
   .day-name small {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .day-row .weather-icon {
     width: 26px;
     height: 26px;
   }
   .day-rain {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .day-range {
     max-width: none;
-    font-size: 12px;
+    font-size: 1rem;
     gap: 10px;
   }
   .day-range strong {
     min-width: 29px;
   }
   .subtle-caption {
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .insights-grid {
     grid-template-columns: 1fr;
@@ -1797,16 +1818,16 @@ footer strong {
     padding: 22px;
   }
   .insights-grid h2 {
-    font-size: 18px;
+    font-size: 1.5rem;
   }
   .insights-grid .eyebrow {
-    font-size: 8px;
+    font-size: 0.75rem;
   }
   .activity-tabs {
     gap: 7px;
   }
   .activity-tabs button {
-    font-size: 11px;
+    font-size: 0.9375rem;
     padding: 9px 11px;
     min-height: 36px;
   }
@@ -1814,19 +1835,19 @@ footer strong {
     margin-top: 23px;
   }
   .planner-result strong {
-    font-size: 16px;
+    font-size: 1.25rem;
   }
   .planner-result p {
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .planner-result .eyebrow {
-    font-size: 8px;
+    font-size: 0.75rem;
   }
   details {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   details p {
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .air-reading {
     margin: 20px 0 25px;
@@ -1835,18 +1856,18 @@ footer strong {
     font-size: 48px;
   }
   .air-reading > span {
-    font-size: 11px;
+    font-size: 0.9375rem;
     padding: 8px 12px;
   }
   .air-foot {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .air-reading small {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .air-unavailable {
     min-height: 80px;
-    font-size: 12px;
+    font-size: 1rem;
   }
   .sun-panel {
     grid-column: auto;
@@ -1865,22 +1886,22 @@ footer strong {
   }
   .sun-arc > span {
     top: 64px;
-    font-size: 20px;
+    font-size: 1.5rem;
   }
   .sun-arc small {
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .sun-times {
     margin-top: 12px;
   }
   .sun-times span {
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .sun-times strong {
-    font-size: 17px;
+    font-size: 1.375rem;
   }
   .data-note {
-    font-size: 9px;
+    font-size: 0.8125rem;
     align-items: flex-start;
     line-height: 1.8;
   }
@@ -1894,7 +1915,7 @@ footer strong {
   }
   footer small {
     display: inline;
-    font-size: 8px;
+    font-size: 0.75rem;
     margin-left: 7px;
   }
   footer > div {
@@ -1902,10 +1923,10 @@ footer strong {
     justify-content: space-between;
     gap: 10px;
     flex-wrap: wrap;
-    font-size: 9px;
+    font-size: 0.8125rem;
   }
   .error-banner {
-    font-size: 12px;
+    font-size: 1rem;
     align-items: flex-start;
     line-height: 1.6;
   }
@@ -1914,7 +1935,7 @@ footer strong {
   }
   .toast {
     bottom: 16px;
-    font-size: 11px;
+    font-size: 0.9375rem;
   }
   .loading-dashboard {
     padding: 50px 0;
@@ -1943,6 +1964,38 @@ footer strong {
 .mobile-favorites {
   display: none;
 }
+@media (max-width: 360px) {
+  .topbar {
+    padding: 16px 12px;
+    gap: 8px;
+  }
+  .location-button span {
+    display: none;
+  }
+  .location-button {
+    min-width: 36px;
+    min-height: 44px;
+    justify-content: center;
+  }
+  main {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .current-card,
+  .details-panel,
+  .insights-grid .panel {
+    padding: 18px;
+  }
+  .metric {
+    padding-left: 0;
+  }
+  .metric > svg {
+    display: none;
+  }
+  .chart-tools .segmented svg {
+    display: none;
+  }
+}
 .sidebar {
   overflow-y: auto;
   scrollbar-width: thin;
@@ -1958,7 +2011,7 @@ footer strong {
     align-items: center;
     flex-wrap: wrap;
     margin: -7px 0 20px;
-    font-size: 10px;
+    font-size: 0.875rem;
   }
   .mobile-favorites > span {
     color: var(--muted);
@@ -1977,7 +2030,7 @@ footer strong {
     align-items: center;
     gap: 5px;
     color: var(--accent);
-    font-size: 10px;
+    font-size: 0.875rem;
     padding: 5px 7px;
   }
   .mobile-favorites > div > button:last-child {

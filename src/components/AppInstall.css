@@ -1,0 +1,129 @@
+.install-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid #d5ef9c55;
+  border-radius: 10px;
+  color: var(--accent);
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+.install-button:hover {
+  background: #d5ef9c10;
+}
+.install-dialog {
+  width: min(540px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 28px;
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 24px 100px #0008;
+}
+.install-dialog::backdrop {
+  background: #080e17c9;
+  backdrop-filter: blur(8px);
+}
+.install-dialog-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.install-dialog h2 {
+  font-size: 1.75rem;
+  margin: 10px 0;
+  line-height: 1.3;
+}
+.install-dialog p,
+.install-dialog li {
+  line-height: 1.7;
+}
+.install-dialog > p:not(.eyebrow),
+.install-dialog li {
+  color: var(--muted);
+}
+.install-dialog ul {
+  padding-left: 20px;
+  margin: 24px 0;
+}
+.install-dialog li + li {
+  margin-top: 18px;
+}
+.install-dialog strong {
+  color: var(--text);
+}
+.install-offline {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #d5ef9c09;
+  font-size: 0.875rem;
+}
+.install-offline svg {
+  color: var(--accent);
+  margin-top: 3px;
+}
+.install-done {
+  display: block;
+  width: 100%;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-weight: 650;
+  margin-top: 24px;
+}
+.pwa-update {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid #d5ef9c55;
+  border-radius: 16px;
+  background: var(--panel-raised);
+  box-shadow: 0 8px 40px #0006;
+  max-width: calc(100% - 32px);
+}
+.pwa-update > svg,
+.pwa-update button {
+  color: var(--accent);
+}
+.pwa-update button {
+  min-height: 44px;
+  padding: 8px;
+}
+@media (max-width: 1050px) {
+  .install-button span {
+    display: none;
+  }
+  .install-button {
+    padding: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .app-install {
+    order: 1;
+  }
+  .install-dialog {
+    padding: 22px;
+  }
+  .install-dialog h2 {
+    font-size: 1.5rem;
+  }
+  .pwa-update {
+    right: 16px;
+    bottom: 16px;
+  }
+}
