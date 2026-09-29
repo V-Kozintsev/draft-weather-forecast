@@ -4,3 +4,4 @@ __mocks__
 coverage
 *storybook.log
 stories
+desktop-release

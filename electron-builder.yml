@@ -1,0 +1,29 @@
+appId: ru.puskweb.atmos
+productName: Atmos
+directories:
+  output: desktop-release
+files:
+  - dist/**/*
+  - desktop/**/*
+  - package.json
+asar: true
+electronLanguages:
+  - en-US
+  - ru
+win:
+  icon: public/icons/pwa-512.png
+  target:
+    - nsis
+    - portable
+  requestedExecutionLevel: asInvoker
+nsis:
+  artifactName: Atmos-Setup-${version}-x64.exe
+  oneClick: true
+  perMachine: false
+  allowElevation: false
+  runAfterFinish: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+portable:
+  artifactName: Atmos-Portable-${version}-x64.exe
+publish: null

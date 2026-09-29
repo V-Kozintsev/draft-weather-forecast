@@ -80,6 +80,25 @@
   font-weight: 650;
   margin-top: 24px;
 }
+.windows-download {
+  text-align: center;
+}
+.install-dialog .windows-note {
+  font-size: 0.8125rem;
+  margin-top: 10px;
+}
+.windows-note a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.mini-browser-button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
 .pwa-update {
   position: fixed;
   bottom: 24px;

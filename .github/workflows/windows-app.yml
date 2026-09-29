@@ -1,0 +1,42 @@
+name: Windows app
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run desktop:build
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: SHA-256
+        shell: pwsh
+        run: |
+          Get-ChildItem desktop-release/*.exe | ForEach-Object {
+            $hash = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$hash  $($_.Name)"
+          } | Set-Content desktop-release/SHA256SUMS.txt -Encoding ascii
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: Atmos ${{ github.ref_name }} — Windows
+          files: |
+            desktop-release/*.exe
+            desktop-release/SHA256SUMS.txt
+          fail_on_unmatched_files: true
+          body: |
+            Погодная панель для Windows 10/11 (64 бит).
+
+            **Setup** — установка с ярлыком на рабочем столе. **Portable** — запуск без установки.
+
+            Мини-погода поверх окон, сворачивание в область уведомлений, текущая температура в подсказке значка. Интерфейс включён в приложение; свежим погодным данным нужен интернет. Сборка без цифровой подписи.
+
+            Сайт разработал [PuskWeb](https://puskweb.ru/).

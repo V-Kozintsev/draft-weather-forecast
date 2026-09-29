@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import Search from "./components/Search";
 import AppInstall from "./components/AppInstall";
+import CompactWeather from "./components/CompactWeather";
 import PanelHeading from "./components/PanelHeading";
 import ForecastChart from "./components/ForecastChart";
 import WeatherIcon from "./components/WeatherIcon";
@@ -63,8 +64,20 @@ export default function App() {
   const [activity, setActivity] = useState<Activity>("walk");
   const [notice, setNotice] = useState("");
   const [locating, setLocating] = useState(false);
+  const [compact, setCompact] = useState(() => new URL(location.href).searchParams.get("view") === "mini");
   const { forecast, air, airState, loading, error, stale, refresh } =
     useWeather(city);
+  useEffect(() => {
+    const desktop = window.atmosDesktop;
+    if (!desktop) return;
+    let active = true;
+    desktop.getCompact().then(value => { if (active) setCompact(value); }).catch(() => {});
+    const unsubscribe = desktop.onCompact(setCompact);
+    return () => { active = false; unsubscribe(); };
+  }, []);
+  useEffect(() => {
+    if (forecast && !stale) window.atmosDesktop?.updateWeather({ city: city.name, temperature: temperature(forecast.current.temperature, fahrenheit), description: condition(forecast.current.code) });
+  }, [forecast, city.name, fahrenheit, stale]);
   useEffect(() => {
     saveStorage("atmos-city", city);
     setSelectedDay(0);
@@ -116,7 +129,7 @@ export default function App() {
   }
   /** Копирует ссылку на выбранный город; сообщает о недоступном буфере. */
   async function share(): Promise<void> {
-    const url = new URL(location.href);
+    const url = new URL("https://v-kozintsev.github.io/atmos-weather/");
     url.search = new URLSearchParams({
       city: city.name,
       region: city.country,
@@ -127,14 +140,16 @@ export default function App() {
       await navigator.clipboard.writeText(url.toString());
       setNotice("Ссылка на прогноз скопирована");
     } catch {
-      setNotice(
-        "Не удалось скопировать. Ссылка на город доступна в адресной строке.",
-      );
-      history.replaceState(null, "", url);
+      setNotice(window.atmosDesktop ? "Не удалось скопировать ссылку. Попробуйте ещё раз." : "Не удалось скопировать. Ссылка на город доступна в адресной строке.");
+      if (!window.atmosDesktop) history.replaceState(null, "", `${location.pathname}${url.search}`);
     }
   }
   /** Запрашивает геолокацию только по нажатию пользователя; координаты отправляются Open-Meteo. */
   function locate(): void {
+    if (window.atmosDesktop) {
+      setNotice("В приложении выберите город через поиск или избранное.");
+      return;
+    }
     if (!navigator.geolocation) {
       setNotice("Геолокация не поддерживается браузером");
       return;
@@ -218,6 +233,7 @@ export default function App() {
   const hasSunTimes =
     !!day?.sunrise && !!day?.sunset && sunsetMinute > sunriseMinute;
 
+  if (compact) return <CompactWeather city={city} forecast={forecast} fahrenheit={fahrenheit} loading={loading} stale={stale} refresh={refresh} />;
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main">
@@ -316,12 +332,13 @@ export default function App() {
             Погода в деталях<span>Ваш день. Ваш ритм.</span>
           </div>
           <Search onSelect={selectCity} />
-          <AppInstall />
+          {window.atmosDesktop ? <div className="desktop-actions"><button className="install-button" onClick={() => window.atmosDesktop?.setCompact(true)}>Мини-погода</button><button className="icon-button" aria-label="Свернуть в область уведомлений" onClick={() => window.atmosDesktop?.hide()}><ChevronRight size={20} /></button></div> : <AppInstall />}
           <button
             className="location-button"
             onClick={locate}
             disabled={locating}
             title="Определить местоположение и передать округлённые координаты Open-Meteo"
+            hidden={!!window.atmosDesktop}
           >
             <LocateFixed size={17} className={locating ? "spin" : ""} />
             <span>{locating ? "Определяем…" : "Где я"}</span>

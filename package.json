@@ -1,6 +1,9 @@
 {
   "name": "atmos-weather",
-  "version": "2.0.0",
+  "version": "2.1.0",
+  "main": "desktop/main.cjs",
+  "author": "Viktor Kozintsev / PuskWeb",
+  "description": "Atmos — погода, прогноз и мини-панель для рабочего стола",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +12,9 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview --host 127.0.0.1 --port 9000",
-    "test": "vitest run"
+    "test": "vitest run",
+    "desktop": "npm run build && electron .",
+    "desktop:build": "npm run build && electron-builder --win nsis portable --x64 --publish never"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.3.0",
@@ -22,6 +27,8 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.1",
     "vite-plugin-pwa": "^1.3.0",

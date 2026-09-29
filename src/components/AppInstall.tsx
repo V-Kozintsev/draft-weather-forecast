@@ -88,6 +88,13 @@ export default function AppInstall() {
     catch { debug("PWA update failed"); setError(true); }
     finally { setBusy(false); }
   }
+  /** @returns {void} Открывает мини-панель по обычной ссылке без установки. */
+  function openMini() {
+    const url = new URL(location.href);
+    url.searchParams.set("view", "mini");
+    const popup = window.open(url, "atmos-mini", "popup=yes,width=380,height=580");
+    if (!popup) location.assign(url.toString());
+  }
 
   return (
     <div className="app-install">
@@ -105,6 +112,9 @@ export default function AppInstall() {
         <p className="eyebrow">ВАШ ПРОГНОЗ ПОД РУКОЙ</p>
         <h2 id="install-title">Atmos как приложение</h2>
         <p>Собственная иконка и отдельное окно — без лишних вкладок.</p>
+        <a className="install-done windows-download" href="https://github.com/V-Kozintsev/atmos-weather/releases/download/v2.1.0/Atmos-Setup-2.1.0-x64.exe">Скачать для Windows</a>
+        <p className="windows-note">Windows 10/11 · 64 бит · мини-погода и значок возле часов. <a href="https://github.com/V-Kozintsev/atmos-weather/releases/download/v2.1.0/Atmos-Portable-2.1.0-x64.exe">Версия без установки</a></p>
+        <button className="mini-browser-button" onClick={openMini}>Открыть мини-панель в браузере</button>
         <ul>
           <li><strong>Компьютер и Android.</strong> Откройте сайт в Chrome или Edge. Нажмите «Установить» здесь либо выберите установку приложения в меню браузера.</li>
           <li><strong>iPhone и iPad.</strong> Откройте сайт в Safari, нажмите «Поделиться» → «На экран Домой».</li>
