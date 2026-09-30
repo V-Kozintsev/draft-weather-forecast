@@ -17,7 +17,7 @@ win:
     - portable
   requestedExecutionLevel: asInvoker
 nsis:
-  artifactName: Atmos-Setup-${version}-x64.exe
+  artifactName: Atmos-Setup-x64.exe
   oneClick: true
   perMachine: false
   allowElevation: false
@@ -25,5 +25,8 @@ nsis:
   createDesktopShortcut: true
   createStartMenuShortcut: true
 portable:
-  artifactName: Atmos-Portable-${version}-x64.exe
-publish: null
+  artifactName: Atmos-Portable-x64.exe
+publish:
+  provider: github
+  owner: V-Kozintsev
+  repo: atmos-weather

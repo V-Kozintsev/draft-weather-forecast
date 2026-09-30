@@ -17,7 +17,6 @@ import {
   MapPin,
   RefreshCw,
   Share2,
-  ShieldCheck,
   Sparkles,
   Sunrise,
   Sunset,
@@ -82,7 +81,7 @@ export default function App() {
   const [notice, setNotice] = useState("");
   const [locating, setLocating] = useState(false);
   const [compact, setCompact] = useState(() => new URL(location.href).searchParams.get("view") === "mini");
-  const { forecast, air, airState, loading, error, stale, refresh } =
+  const { forecast, loading, error, stale, refresh } =
     useWeather(city);
   useEffect(() => {
     const desktop = window.atmosDesktop;
@@ -161,7 +160,7 @@ export default function App() {
       if (!window.atmosDesktop) history.replaceState(null, "", `${location.pathname}${url.search}`);
     }
   }
-  /** @returns {Promise<void>} Запрашивает приблизительное местоположение только по нажатию и передаёт округлённые координаты Open-Meteo. */
+  /** @returns {Promise<void>} Запрашивает местоположение только по нажатию и округляет координаты для MET Norway. */
   async function locate(): Promise<void> {
     if (window.atmosDesktop) {
       setNotice("В приложении выберите город через поиск или избранное.");
@@ -218,19 +217,6 @@ export default function App() {
   );
   /** @param {number} value - Температура в °C. @returns {number} Температура в выбранных единицах. */
   const temp = (value: number): number => temperature(value, fahrenheit);
-  const airLabel = air
-    ? air.aqi <= 20
-      ? "Хорошее"
-      : air.aqi <= 40
-        ? "Удовлетворительное"
-        : air.aqi <= 60
-          ? "Умеренное"
-          : air.aqi <= 80
-            ? "Плохое"
-            : air.aqi <= 100
-              ? "Очень плохое"
-              : "Экстремально плохое"
-    : "";
   const sunriseMinute = day
     ? Number(clock(day.sunrise).slice(0, 2)) * 60 +
       Number(clock(day.sunrise).slice(3))
@@ -355,13 +341,13 @@ export default function App() {
           <div className="topbar-label">
             Погода в деталях<span>Ваш день. Ваш ритм.</span>
           </div>
-          <Search onSelect={selectCity} />
+          <Search key={city.id} onSelect={selectCity} />
           {window.atmosDesktop ? <div className="desktop-actions"><button className="install-button" onClick={() => window.atmosDesktop?.setCompact(true)}>Мини-погода</button><button className="icon-button" aria-label="Свернуть в область уведомлений" onClick={() => window.atmosDesktop?.hide()}><ChevronRight size={20} /></button></div> : nativeMobile ? null : <AppInstall />}
           <button
             className="location-button"
             onClick={locate}
             disabled={locating}
-            title="Определить местоположение и передать округлённые координаты Open-Meteo"
+            title="Определить местоположение и передать округлённые координаты MET Norway"
             hidden={!!window.atmosDesktop}
           >
             <LocateFixed size={17} className={locating ? "spin" : ""} />
@@ -685,7 +671,7 @@ export default function App() {
                           </small>
                         </span>
                         <WeatherIcon code={d.code} />
-                        <span className="day-rain">{d.rain}%</span>
+                        <span className="day-rain">{d.rain.toFixed(1)} мм</span>
                         <span className="day-range">
                           <span>{temp(d.min)}°</span>
                           <span className="range-track">
@@ -755,7 +741,7 @@ export default function App() {
                       </strong>
                       <p>
                         {best
-                          ? `${temp(best.feels)}° по ощущениям, осадки ${best.rain}%, ветер ${Math.round(best.wind)} км/ч.`
+                          ? `${temp(best.feels)}° по ощущениям, осадки ${best.rain.toFixed(1)} мм, ветер ${Math.round(best.wind)} км/ч.`
                           : "В прогнозе нет дневного часа с подходящими условиями для этой активности."}
                       </p>
                     </div>
@@ -767,56 +753,13 @@ export default function App() {
                       {selectedDay === 0
                         ? "следующих 24 часов"
                         : "выбранного дня"}{" "}
-                      выбираем дневной час с вероятностью осадков до 30%.
+                      выбираем дневной час с осадками до 0,2 мм.
                       Учитываем температуру по ощущениям и ветер: для прогулки
                       0–30°C и до 30 км/ч, бега 3–25°C и до 25 км/ч, велосипеда
                       5–28°C и до 20 км/ч. Затем ищем минимум осадков, ветра и
                       отклонения от 18°C. Это ориентир по прогнозу.
                     </p>
                   </details>
-                </section>
-                <section
-                  className="panel air-panel"
-                  aria-labelledby="air-heading"
-                >
-                  <PanelHeading
-                    eyebrow="КАЧЕСТВО ВОЗДУХА"
-                    id="air-heading"
-                    title="Дышится как?"
-                  >
-                    <ShieldCheck size={20} />
-                  </PanelHeading>
-                  {air ? (
-                    <>
-                      <div className="air-reading">
-                        <strong>
-                          {Math.round(air.aqi)}
-                          <small>EU AQI</small>
-                        </strong>
-                        <span className={air.aqi > 60 ? "air-warning" : ""}>
-                          {airLabel}
-                        </span>
-                      </div>
-                      <div className="air-scale">
-                        <span style={{ left: `${Math.min(100, air.aqi)}%` }} />
-                      </div>
-                      <div className="air-foot">
-                        <span>
-                          PM2.5 <strong>{air.pm25.toFixed(1)} мкг/м³</strong>
-                        </span>
-                        <span>{clock(air.time)}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <p className="air-unavailable" role="status">
-                      {airState === "loading"
-                        ? "Получаем данные…"
-                        : "Сервис качества воздуха недоступен. Погодный прогноз продолжает работать."}
-                    </p>
-                  )}
-                  <p className="subtle-caption">
-                    Модель CAMS · европейская шкала AQI
-                  </p>
                 </section>
                 <section
                   className="panel sun-panel"
@@ -909,8 +852,11 @@ export default function App() {
             <small>Погода, с которой можно строить планы.</small>
           </span>
           <div>
-            <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">
-              Данные Open-Meteo & CAMS
+            <a href="https://api.met.no/" target="_blank" rel="noreferrer">
+              Прогноз MET Norway
+            </a>
+            <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">
+              Города GeoNames
             </a>
             <a href="https://puskweb.ru/" target="_blank" rel="noreferrer">
               Сайт разработал <strong>PuskWeb</strong>

@@ -93,7 +93,7 @@ function buildOutfit(feels: number, wind: number, rain: boolean, note: string, p
 
 /** @param {Hour} hour - Ближайший час. @param {OutfitPreferences} preferences - Стиль и комфорт. @returns {OutfitAdvice} Образ для выхода сейчас. */
 export function outfitForHour(hour: Hour, preferences: OutfitPreferences = defaultOutfitPreferences): OutfitAdvice {
-  const rain = hour.rain >= 40 || hasPrecipitation(hour.code);
+  const rain = hour.rain >= 0.3 || hasPrecipitation(hour.code);
   const reasons = [`${Math.round(hour.feels)}° по ощущениям`];
   if (rain) reasons.push("возможны осадки");
   if (hour.wind >= 25) reasons.push(`ветер ${Math.round(hour.wind)} км/ч`);
@@ -107,7 +107,7 @@ export function outfitForDay(day: Day, hours: Hour[], fallback: Hour, preference
   const min = Math.min(...span.map((hour) => hour.feels));
   const max = Math.max(...span.map((hour) => hour.feels));
   const wind = Math.max(...span.map((hour) => hour.wind));
-  const rain = day.rain >= 45 || span.some((hour) => hour.rain >= 50 || hasPrecipitation(hour.code));
+  const rain = day.rain >= 0.5 || span.some((hour) => hour.rain >= 0.3 || hasPrecipitation(hour.code));
   const reasons = [min === max ? `${Math.round(min)}° по ощущениям` : `от ${Math.round(min)}° до ${Math.round(max)}° по ощущениям`];
   if (rain) reasons.push("возможны осадки");
   if (wind >= 25) reasons.push(`ветер до ${Math.round(wind)} км/ч`);

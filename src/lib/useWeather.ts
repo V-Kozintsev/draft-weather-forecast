@@ -2,19 +2,14 @@ import { useEffect, useState } from "react";
 import {
   cachedForecast,
   debug,
-  fetchAir,
   fetchForecast,
   saveStorage,
 } from "./api";
-import type { Air, City, Forecast } from "./weather";
+import type { City, Forecast } from "./weather";
 
 /** @param {City} city - Выбранный город. @returns {object} Данные, состояние сети и ручное обновление с защитой от гонок запросов. */
 export function useWeather(city: City) {
   const [forecast, setForecast] = useState<Forecast>();
-  const [air, setAir] = useState<Air>();
-  const [airState, setAirState] = useState<"loading" | "done" | "error">(
-    "loading",
-  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [stale, setStale] = useState(false);
@@ -28,8 +23,6 @@ export function useWeather(city: City) {
     const cached = cachedForecast(city);
     setForecast(cached);
     setStale(!!cached);
-    setAir(undefined);
-    setAirState("loading");
     setLoading(true);
     setError("");
     debug("loading");
@@ -38,7 +31,7 @@ export function useWeather(city: City) {
         if (abort.signal.aborted) return;
         setForecast(data);
         setStale(false);
-        saveStorage("atmos-forecast", data);
+        saveStorage("atmos-forecast-met", data);
         debug("ready");
       })
       .catch(() => {
@@ -54,16 +47,6 @@ export function useWeather(city: City) {
       .finally(() => {
         if (!abort.signal.aborted) setLoading(false);
       });
-    fetchAir(city, abort.signal)
-      .then((data) => {
-        if (!abort.signal.aborted) {
-          setAir(data);
-          setAirState("done");
-        }
-      })
-      .catch(() => {
-        if (!abort.signal.aborted) setAirState("error");
-      });
     return () => abort.abort();
   }, [city.latitude, city.longitude, revision]);
   const matchesCity =
@@ -71,8 +54,6 @@ export function useWeather(city: City) {
     forecast?.city.longitude === city.longitude;
   return {
     forecast: matchesCity ? forecast : undefined,
-    air: matchesCity ? air : undefined,
-    airState,
     loading,
     error,
     stale,

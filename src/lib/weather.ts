@@ -42,11 +42,6 @@ export interface Forecast {
   hours: Hour[];
   days: Day[];
 }
-export interface Air {
-  aqi: number;
-  pm25: number;
-  time: string;
-}
 export type Activity = "walk" | "run" | "cycle";
 export const CITIES: City[] = [
   {
@@ -126,7 +121,7 @@ export function bestHour(hours: Hour[], activity: Activity): Hour | undefined {
     .filter(
       (h) =>
         h.day &&
-        h.rain <= 30 &&
+        h.rain <= 0.2 &&
         h.feels >= limits[0] &&
         h.feels <= limits[1] &&
         h.wind <= limits[2] &&
@@ -134,10 +129,10 @@ export function bestHour(hours: Hour[], activity: Activity): Hour | undefined {
     )
     .sort(
       (a, b) =>
-        a.rain +
+        a.rain * 10 +
         Math.abs(a.feels - 18) * 2 +
         a.wind -
-        (b.rain + Math.abs(b.feels - 18) * 2 + b.wind),
+        (b.rain * 10 + Math.abs(b.feels - 18) * 2 + b.wind),
     )[0];
 }
 

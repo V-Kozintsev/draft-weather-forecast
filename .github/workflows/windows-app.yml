@@ -30,6 +30,8 @@ jobs:
           name: Atmos ${{ github.ref_name }} — Windows
           files: |
             desktop-release/*.exe
+            desktop-release/*.yml
+            desktop-release/*.blockmap
             desktop-release/SHA256SUMS.txt
           fail_on_unmatched_files: true
           body: |

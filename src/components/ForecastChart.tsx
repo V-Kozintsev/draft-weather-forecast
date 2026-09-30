@@ -31,12 +31,12 @@ export default function ForecastChart({
         : h.wind,
   );
   const low = metric === "rain" ? 0 : Math.min(...values) - 3;
-  const high = metric === "rain" ? 100 : Math.max(...values) + 3;
+  const high = metric === "rain" ? Math.max(1, ...values) : Math.max(...values) + 3;
   const unit =
     metric === "temperature"
       ? `°${fahrenheit ? "F" : "C"}`
       : metric === "rain"
-        ? "%"
+        ? "мм"
         : "км/ч";
   const points = values.map((value, i) => ({
     x: 30 + (i * 940) / Math.max(1, hours.length - 1),
@@ -68,7 +68,7 @@ export default function ForecastChart({
         <div className="chart-reading" aria-live="polite">
           <span>{clock(hour.time)}</span>
           <strong>
-            {Math.round(values[index])}
+            {metric === "rain" ? values[index].toFixed(1) : Math.round(values[index])}
             <small>{unit}</small>
           </strong>
         </div>
@@ -144,7 +144,7 @@ export default function ForecastChart({
             key={h.time}
             className={index === i ? "selected" : ""}
             aria-pressed={index === i}
-            aria-label={`${clock(h.time)}, ${condition(h.code)}, ${Math.round(values[i])} ${unit}`}
+            aria-label={`${clock(h.time)}, ${condition(h.code)}, ${metric === "rain" ? values[i].toFixed(1) : Math.round(values[i])} ${unit}`}
             onClick={() => setSelected(i)}
             onFocus={() => setSelected(i)}
           >
@@ -153,14 +153,14 @@ export default function ForecastChart({
             <strong>
               {metric === "temperature"
                 ? temperature(h.temperature, fahrenheit)
-                : Math.round(values[i])}
+                : metric === "rain" ? values[i].toFixed(1) : Math.round(values[i])}
               <small>
-                {metric === "temperature" ? "°" : metric === "rain" ? "%" : ""}
+                {metric === "temperature" ? "°" : metric === "rain" ? "мм" : ""}
               </small>
             </strong>
             <span className="rain-label">
               <Droplets size={10} />
-              {h.rain}%
+              {h.rain.toFixed(1)} мм
             </span>
           </button>
         ))}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CloudRain, CloudSnow, Settings2, Sparkles } from "lucide-react";
+import { CloudRain, CloudSnow, ExternalLink, Settings2, Sparkles } from "lucide-react";
 import { defaultOutfitPreferences, outfitForDay, outfitForHour, type OutfitOccasion, type OutfitPreferences, type WarmthPreference } from "../lib/outfit";
 import type { Day, Hour } from "../lib/weather";
 import { readStorage, saveStorage } from "../lib/api";
@@ -16,6 +16,7 @@ interface Props {
 export default function OutfitCard({ hour, day, remainingHours, hourLabel }: Props) {
   const [mode, setMode] = useState<"hour" | "day">("hour");
   const [gender, setGender] = useState<"woman" | "man">(() => readStorage<string>("atmos-outfit-gender", "woman") === "man" ? "man" : "woman");
+  const [selectedPiece, setSelectedPiece] = useState("outer");
   const [preferences, setPreferences] = useState<OutfitPreferences>(() => {
     const saved = readStorage<Partial<OutfitPreferences>>("atmos-outfit-preferences", defaultOutfitPreferences);
     if (!saved || typeof saved !== "object") return defaultOutfitPreferences;
@@ -27,6 +28,20 @@ export default function OutfitCard({ hour, day, remainingHours, hourLabel }: Pro
   const advice = mode === "hour" ? outfitForHour(hour, preferences) : outfitForDay(day, remainingHours, hour, preferences);
   const bottomStyle = advice.style === "heat" || advice.style === "warm" ? "warm" : advice.style === "mild" ? "mild" : advice.style === "cool" ? "cool" : "cold";
   const topStyle = advice.rain && (advice.style === "mild" || advice.style === "cool") ? "rain" : bottomStyle;
+  const shoppingPieces = [
+    { id: "upper", label: "Верх", name: advice.pieces.upper },
+    ...(advice.pieces.outer ? [{ id: "outer", label: "Слой", name: advice.pieces.outer }] : []),
+    { id: "lower", label: "Низ", name: advice.pieces.lower },
+    { id: "shoes", label: "Обувь", name: advice.pieces.shoes },
+  ];
+  const activePiece = shoppingPieces.find((piece) => piece.id === selectedPiece) ?? shoppingPieces[0];
+  const productQuery = `${gender === "woman" ? "женская" : "мужская"} ${activePiece.name}`;
+
+  /** @param {"ozon" | "wildberries"} marketplace - Площадка поиска. @returns {string} Ссылка на поиск похожей вещи без партнёрского идентификатора. */
+  function shoppingUrl(marketplace: "ozon" | "wildberries"): string {
+    const search = encodeURIComponent(productQuery);
+    return marketplace === "ozon" ? `https://www.ozon.ru/search/?text=${search}` : `https://www.wildberries.ru/catalog/0/search.aspx?search=${search}`;
+  }
 
   /** @param {"woman" | "man"} next - Вариант персонажа. @returns {void} Сохраняет выбор только на этом устройстве. */
   function selectGender(next: "woman" | "man"): void {
@@ -86,6 +101,20 @@ export default function OutfitCard({ hour, day, remainingHours, hourLabel }: Pro
           {advice.pieces.accessories.length > 0 && <div><dt>С собой</dt><dd>{advice.pieces.accessories.join(" · ")}</dd></div>}
         </dl>
         <p className="outfit-disclaimer">Фото показывает уровень утепления. Детали комплекта — в списке; выбирайте вещи под свой комфорт.</p>
+        <details className="outfit-shopping">
+          <summary>Найти похожую вещь</summary>
+          <div className="outfit-shopping-controls">
+            <label htmlFor="outfit-piece">Что искать</label>
+            <select id="outfit-piece" value={activePiece.id} onChange={(event) => setSelectedPiece(event.target.value)}>
+              {shoppingPieces.map((piece) => <option key={piece.id} value={piece.id}>{piece.label} · {piece.name}</option>)}
+            </select>
+          </div>
+          <div className="outfit-shopping-links">
+            <a href={shoppingUrl("ozon")} target="_blank" rel="noopener noreferrer">Ozon <ExternalLink size={14} /></a>
+            <a href={shoppingUrl("wildberries")} target="_blank" rel="noopener noreferrer">Wildberries <ExternalLink size={14} /></a>
+          </div>
+          <p>Откроется поиск в магазине. Цены и наличие проверяйте там.</p>
+        </details>
       </div>
     </section>
   );

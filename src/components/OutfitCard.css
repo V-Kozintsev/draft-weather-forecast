@@ -164,6 +164,57 @@
   font-size: .8125rem;
   line-height: 1.5;
 }
+.outfit-shopping {
+  margin-top: 15px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  color: var(--text);
+}
+.outfit-shopping summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.outfit-shopping-controls {
+  display: grid;
+  gap: 7px;
+  margin-top: 14px;
+  font-size: .8125rem;
+}
+.outfit-shopping select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--text);
+  background: var(--panel);
+  font: inherit;
+}
+.outfit-shopping-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.outfit-shopping-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--accent);
+  text-decoration: none;
+}
+.outfit-shopping-links a:hover,
+.outfit-shopping-links a:focus-visible {
+  border-color: var(--accent);
+}
+.outfit-shopping > p {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: .75rem;
+}
 @media (max-width: 700px) {
   .outfit-card { grid-template-columns: 1fr; }
   .outfit-visual { min-height: 224px; }

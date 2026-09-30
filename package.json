@@ -1,6 +1,6 @@
 {
   "name": "atmos-weather",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "main": "desktop/main.cjs",
   "author": "Viktor Kozintsev / PuskWeb",
   "description": "Atmos — погода, прогноз и мини-панель для рабочего стола",
@@ -23,15 +23,20 @@
     "@capacitor/geolocation": "^8.2.2",
     "@capacitor/ios": "^8.5.2",
     "@fontsource-variable/manrope": "^5.3.0",
+    "electron-updater": "^6.8.9",
     "lucide-react": "^1.48.0",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0"
+    "react-dom": "^19.3.0",
+    "suncalc": "^2.0.2",
+    "tz-lookup": "^6.1.25"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.2",
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/suncalc": "^1.9.2",
+    "@types/tz-lookup": "^6.1.2",
     "@vitejs/plugin-react": "^6.1.1",
     "electron": "^44.4.5",
     "electron-builder": "^26.15.3",

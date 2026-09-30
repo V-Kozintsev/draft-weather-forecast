@@ -16,6 +16,7 @@ export default function AppInstall() {
   const [cached, setCached] = useState(false);
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const button = useRef<HTMLButtonElement>(null);
   const {
@@ -24,6 +25,7 @@ export default function AppInstall() {
     updateServiceWorker,
   } = useRegisterSW({
     onRegistered(registration) {
+      setRegistration(registration ?? null);
       setCached(Boolean(registration?.active));
       debug("PWA registered", { active: Boolean(registration?.active) });
     },
@@ -31,6 +33,17 @@ export default function AppInstall() {
     onNeedRefresh() { debug("PWA update available"); },
     onRegisterError() { debug("PWA registration failed"); setError(true); },
   });
+
+  useEffect(() => {
+    if (!registration) return;
+    /** Проверяет обновление при возвращении к приложению и раз в час, пока оно открыто. */
+    function checkUpdate(): void {
+      if (document.visibilityState === "visible") registration?.update().catch(() => debug("PWA update check failed"));
+    }
+    const interval = window.setInterval(checkUpdate, 60 * 60 * 1000);
+    document.addEventListener("visibilitychange", checkUpdate);
+    return () => { window.clearInterval(interval); document.removeEventListener("visibilitychange", checkUpdate); };
+  }, [registration]);
 
   useEffect(() => {
     const display = window.matchMedia("(display-mode: standalone)");
@@ -112,8 +125,8 @@ export default function AppInstall() {
         <p className="eyebrow">ВАШ ПРОГНОЗ ПОД РУКОЙ</p>
         <h2 id="install-title">Atmos как приложение</h2>
         <p>Собственная иконка и отдельное окно — без лишних вкладок.</p>
-        <a className="install-done windows-download" href="https://github.com/V-Kozintsev/atmos-weather/releases/download/v2.1.0/Atmos-Setup-2.1.0-x64.exe">Скачать для Windows</a>
-        <p className="windows-note">Windows 10/11 · 64 бит · мини-погода и значок возле часов. <a href="https://github.com/V-Kozintsev/atmos-weather/releases/download/v2.1.0/Atmos-Portable-2.1.0-x64.exe">Версия без установки</a></p>
+        <a className="install-done windows-download" href="https://github.com/V-Kozintsev/atmos-weather/releases/latest/download/Atmos-Setup-x64.exe">Скачать для Windows</a>
+        <p className="windows-note">Windows 10/11 · 64 бит · мини-погода и значок возле часов. <a href="https://github.com/V-Kozintsev/atmos-weather/releases/latest/download/Atmos-Portable-x64.exe">Версия без установки</a></p>
         <button className="mini-browser-button" onClick={openMini}>Открыть мини-панель в браузере</button>
         <ul>
           <li><strong>Компьютер и Android.</strong> Откройте сайт в Chrome или Edge. Нажмите «Установить» здесь либо выберите установку приложения в меню браузера.</li>

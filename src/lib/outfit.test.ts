@@ -18,7 +18,7 @@ describe("outfit advice", () => {
     expect(advice.items).toContain("Тёплая куртка");
   });
   it("protects against rain in the nearest hour", () => {
-    expect(outfitForHour({ ...hour, rain: 50 }).items).toContain("Зонт или дождевик");
+    expect(outfitForHour({ ...hour, rain: 0.5 }).items).toContain("Зонт или дождевик");
     expect(outfitForHour({ ...hour, code: 95, rain: 0 }).items).toContain("Зонт или дождевик");
   });
   it("uses the coldest remaining hour and includes the whole-day temperature range", () => {
@@ -30,11 +30,11 @@ describe("outfit advice", () => {
     expect(advice.note).toContain("от 8° до 20°");
   });
   it("adds protection for later precipitation", () => {
-    const advice = outfitForDay(day, [hour, { ...hour, time: "2026-09-30T18:00", rain: 70 }], hour);
+    const advice = outfitForDay(day, [hour, { ...hour, time: "2026-09-30T18:00", rain: 0.7 }], hour);
     expect(advice.items).toContain("Зонт или дождевик");
   });
   it("suggests winter shoes for freezing precipitation", () => {
-    const advice = outfitForDay({ ...day, rain: 60 }, [{ ...hour, feels: -8, code: 71 }], hour);
+    const advice = outfitForDay({ ...day, rain: 0.6 }, [{ ...hour, feels: -8, code: 71 }], hour);
     expect(advice.style).toBe("frost");
     expect(advice.items).toContain("Непромокаемая обувь");
   });

@@ -74,7 +74,7 @@ describe("activity selection", () => {
       bestHour(
         [
           { ...hour, day: false },
-          { ...hour, rain: 80 },
+          { ...hour, rain: 0.8 },
           { ...hour, code: 95 },
           { ...hour, wind: 45 },
         ],
@@ -93,11 +93,11 @@ describe("activity selection", () => {
   });
   it("selects the least rainy comfortable hour without mutating the array", () => {
     const hours = [
-      { ...hour, rain: 20 },
+      { ...hour, rain: 0.2 },
       { ...hour, time: "2026-09-29T13:00" },
     ];
     expect(bestHour(hours, "run")?.time).toBe("2026-09-29T13:00");
-    expect(hours[0].rain).toBe(20);
+    expect(hours[0].rain).toBe(0.2);
   });
 });
 describe("API and storage failure handling", () => {
@@ -106,7 +106,7 @@ describe("API and storage failure handling", () => {
     expect(readStorage("broken", [])).toEqual([]);
   });
   it("rejects an expired or different-city cache", () => {
-    saveStorage("atmos-forecast", {
+    saveStorage("atmos-forecast-met", {
       city: CITIES[0],
       fetchedAt: Date.now() - 86400001,
     });
@@ -137,31 +137,21 @@ describe("API and storage failure handling", () => {
       fetchForecast(CITIES[0], new AbortController().signal),
     ).rejects.toThrow("Invalid forecast");
   });
-  it("encodes the search query, passes abort signal and filters malformed coordinates", async () => {
+  it("searches bundled cities without contacting a geocoding service", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
       status: 200,
-      json: async () => ({
-        results: [
-          {
-            id: 1,
-            name: "Москва",
-            country: "Россия",
-            latitude: 55,
-            longitude: 37,
-          },
-          { id: 2, name: "Broken", latitude: 999, longitude: 0 },
-        ],
-      }),
+      json: async () => [
+        ["1", "Москва", "RU", 55, 37, "москва moscow"],
+        ["2", "Лондон", "GB", 51, 0, "лондон london"],
+      ],
     });
     vi.stubGlobal("fetch", fetchMock);
     const controller = new AbortController();
-    const result = await searchCities("Москва &", controller.signal);
+    const result = await searchCities("Москва", controller.signal);
     expect(result).toHaveLength(1);
-    expect(new URL(fetchMock.mock.calls[0][0]).searchParams.get("name")).toBe(
-      "Москва &",
-    );
+    expect(fetchMock.mock.calls[0][0]).toContain("cities.json");
     controller.abort();
-    expect(fetchMock.mock.calls[0][1].signal.aborted).toBe(true);
+    expect(result[0].name).toBe("Москва");
   });
 });

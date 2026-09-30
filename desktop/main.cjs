@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, Menu, nativeImage, net, protocol, session, shell, Tray } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage, net, protocol, session, shell, Tray } = require("electron");
+const { autoUpdater } = require("electron-updater");
 const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 
@@ -46,6 +47,39 @@ function setCompact(next) {
 function openExternal(raw) {
   try { if (new URL(raw).protocol === "https:") shell.openExternal(raw); }
   catch { console.info("[Atmos Desktop] external link rejected"); }
+}
+
+/** Проверяет GitHub Releases только в установленной Windows-сборке; portable остаётся самостоятельным файлом. */
+function initializeUpdates() {
+  if (!app.isPackaged || process.env.PORTABLE_EXECUTABLE_FILE) return;
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+  autoUpdater.on("checking-for-update", () => trace("update check"));
+  autoUpdater.on("update-available", (info) => trace("update available", { version: info.version }));
+  autoUpdater.on("update-not-available", () => trace("up to date"));
+  autoUpdater.on("error", (error) => console.error("[Atmos Desktop] update failed", error.message));
+  autoUpdater.on("update-downloaded", async (info) => {
+    trace("update downloaded", { version: info.version });
+    const answer = await dialog.showMessageBox(window, {
+      type: "info",
+      title: "Обновление Atmos",
+      message: `Версия ${info.version} готова к установке.`,
+      detail: "Можно перезапустить Atmos сейчас или установить обновление при следующем закрытии.",
+      buttons: ["Перезапустить сейчас", "Позже"],
+      defaultId: 0,
+      cancelId: 1,
+    });
+    if (answer.response === 0) {
+      quitting = true;
+      autoUpdater.quitAndInstall(false, true);
+    }
+  });
+  /** Запускает проверку без влияния на загрузку погодного интерфейса. */
+  function check() {
+    autoUpdater.checkForUpdates().catch((error) => console.error("[Atmos Desktop] update check failed", error.message));
+  }
+  setTimeout(check, 15000);
+  setInterval(check, 6 * 60 * 60 * 1000);
 }
 
 /** Создаёт изолированное окно с локальной сборкой и значок в области уведомлений. */
@@ -97,8 +131,11 @@ else {
     });
     session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
     session.defaultSession.setPermissionCheckHandler(() => false);
+    session.defaultSession.webRequest.onBeforeSendHeaders({ urls: ["https://api.met.no/*"] }, (details, callback) => {
+      callback({ requestHeaders: { ...details.requestHeaders, "User-Agent": `Atmos/${app.getVersion()} (https://github.com/V-Kozintsev/atmos-weather)` } });
+    });
     session.defaultSession.webRequest.onHeadersReceived({ urls: ["atmos://bundle/*"] }, (details, callback) => {
-      callback({ responseHeaders: { ...details.responseHeaders, "Content-Security-Policy": ["default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://api.open-meteo.com https://geocoding-api.open-meteo.com https://air-quality-api.open-meteo.com; object-src 'none'; frame-src 'none'; base-uri 'self'"] } });
+      callback({ responseHeaders: { ...details.responseHeaders, "Content-Security-Policy": ["default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.met.no; object-src 'none'; frame-src 'none'; base-uri 'self'"] } });
     });
     ipcMain.handle("atmos:get-compact", (event) => trusted(event) ? compact : false);
     ipcMain.on("atmos:set-compact", (event, next) => { if (trusted(event) && typeof next === "boolean") setCompact(next); });
@@ -110,6 +147,7 @@ else {
       window.setTitle(`Atmos — ${title}`);
     });
     createWindow();
+    initializeUpdates();
     trace("initialized", { version: app.getVersion(), packaged: app.isPackaged });
   }).catch(() => { console.error("[Atmos Desktop] initialization failed"); app.quit(); });
 }
