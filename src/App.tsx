@@ -861,6 +861,9 @@ export default function App() {
             <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">
               Города GeoNames
             </a>
+            <a href={`${import.meta.env.BASE_URL}privacy.html`}>
+              Конфиденциальность
+            </a>
             <a href="https://puskweb.ru/" target="_blank" rel="noreferrer">
               Сайт разработал <strong>PuskWeb</strong>
               <ArrowUpRight size={12} />
