@@ -1,0 +1,130 @@
+.outfit-card {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  min-height: 250px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(115deg, #222e39, #1b222c 62%);
+}
+.outfit-visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 285px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #a5cfb32c, transparent 64%);
+}
+.outfit-halo {
+  position: absolute;
+  width: 194px;
+  height: 194px;
+  border: 1px solid #d5ef9c24;
+  border-radius: 50%;
+  box-shadow: 0 0 0 34px #d5ef9c06, 0 0 0 66px #d5ef9c04;
+}
+.outfit-model {
+  position: relative;
+  width: 190px;
+  height: 285px;
+  object-fit: contain;
+}
+.outfit-model-top {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  mask-image: linear-gradient(to bottom, #000 0 48%, transparent 60%);
+}
+.outfit-weather-icon {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  color: #b5d5df;
+}
+.outfit-content {
+  padding: 27px 30px;
+  align-self: center;
+}
+.outfit-content > .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  font-size: .75rem;
+  letter-spacing: 1.1px;
+}
+.outfit-content h2 {
+  margin-top: 18px;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+}
+.outfit-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 17px;
+}
+.outfit-gender {
+  display: inline-flex;
+  gap: 3px;
+  margin: 0 0 0 16px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  vertical-align: middle;
+}
+.outfit-gender button {
+  padding: 5px 8px;
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: .75rem;
+}
+.outfit-gender button.active {
+  color: var(--text);
+  background: var(--panel-raised);
+}
+.outfit-tabs button {
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: .875rem;
+}
+.outfit-tabs button.active {
+  border-color: #d5ef9c77;
+  color: var(--accent);
+  background: #d5ef9c0e;
+}
+.outfit-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+.outfit-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.outfit-list li {
+  padding: 8px 12px;
+  border: 1px solid #d5ef9c35;
+  border-radius: 9px;
+  background: #d5ef9c0a;
+  color: var(--text);
+  font-size: .875rem;
+}
+.outfit-disclaimer {
+  color: var(--muted);
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+@media (max-width: 700px) {
+  .outfit-card { grid-template-columns: 1fr; }
+  .outfit-visual { min-height: 224px; }
+  .outfit-model { width: 150px; height: 224px; }
+  .outfit-content { padding: 22px; }
+  .outfit-list { margin-top: 17px; }
+}

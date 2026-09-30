@@ -26,6 +26,7 @@ import {
 import Search from "./components/Search";
 import AppInstall from "./components/AppInstall";
 import CompactWeather from "./components/CompactWeather";
+import OutfitCard from "./components/OutfitCard";
 import PanelHeading from "./components/PanelHeading";
 import ForecastChart from "./components/ForecastChart";
 import WeatherIcon from "./components/WeatherIcon";
@@ -43,6 +44,7 @@ import {
 } from "./lib/weather";
 import { readStorage, saveStorage } from "./lib/api";
 import { useWeather } from "./lib/useWeather";
+import { outfitForDay, outfitForHour } from "./lib/outfit";
 
 /** @returns {City} Проверенный стартовый город из ссылки или последнего посещения. */
 function initialCity(): City {
@@ -178,6 +180,18 @@ export default function App() {
 
   const current = forecast?.current;
   const day = forecast?.days[selectedDay];
+  const nearestHour = current && (forecast?.hours.find((hour) => hour.time >= current.time) ?? {
+    time: current.time,
+    temperature: current.temperature,
+    feels: current.feels,
+    rain: 0,
+    wind: current.wind,
+    code: current.code,
+    day: current.day,
+  });
+  const remainingToday = forecast && current
+    ? forecast.hours.filter((hour) => hour.time.startsWith(forecast.days[0].date) && hour.time >= current.time)
+    : [];
   const upcoming =
     forecast?.hours
       .filter((h) => h.time >= forecast.current.time)
@@ -477,8 +491,17 @@ export default function App() {
               <p>Выберите другой город или обновите прогноз через минуту.</p>
             </div>
           )}
-          {forecast && current && day && (
+          {forecast && current && day && nearestHour && (
             <>
+              <OutfitCard
+                hour={outfitForHour(nearestHour)}
+                day={outfitForDay(
+                  forecast.days[0],
+                  remainingToday,
+                  { ...nearestHour, rain: forecast.days[0].rain },
+                )}
+                hourLabel={`${nearestHour.time.slice(0, 10) !== forecast.days[0].date ? "Завтра к" : "К"} ${clock(nearestHour.time)}`}
+              />
               <div className="overview-grid">
                 <section
                   className={`current-card ${current.day ? "daytime" : "nighttime"}`}
