@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Capacitor } from "@capacitor/core";
+import { Geolocation } from "@capacitor/geolocation";
 import {
   ArrowUpRight,
   Bike,
@@ -45,6 +47,20 @@ import {
 import { readStorage, saveStorage } from "./lib/api";
 import { useWeather } from "./lib/useWeather";
 import { outfitForDay, outfitForHour } from "./lib/outfit";
+
+const nativeMobile = Capacitor.isNativePlatform();
+
+/** @returns {Promise<{coords: {latitude: number, longitude: number}}>} Координаты устройства после разрешения на геолокацию. */
+async function currentPosition(): Promise<{ coords: { latitude: number; longitude: number } }> {
+  if (nativeMobile) {
+    const permission = await Geolocation.requestPermissions({ permissions: ["coarseLocation"] });
+    if (permission.coarseLocation !== "granted") throw new Error("Location denied");
+    return Geolocation.getCurrentPosition({ enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 });
+  }
+  return new Promise<GeolocationPosition>((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 10000, maximumAge: 300000 });
+  });
+}
 
 /** @returns {City} Проверенный стартовый город из ссылки или последнего посещения. */
 function initialCity(): City {
@@ -146,36 +162,31 @@ export default function App() {
       if (!window.atmosDesktop) history.replaceState(null, "", `${location.pathname}${url.search}`);
     }
   }
-  /** Запрашивает геолокацию только по нажатию пользователя; координаты отправляются Open-Meteo. */
-  function locate(): void {
+  /** @returns {Promise<void>} Запрашивает приблизительное местоположение только по нажатию и передаёт округлённые координаты Open-Meteo. */
+  async function locate(): Promise<void> {
     if (window.atmosDesktop) {
       setNotice("В приложении выберите город через поиск или избранное.");
       return;
     }
-    if (!navigator.geolocation) {
+    if (!nativeMobile && !navigator.geolocation) {
       setNotice("Геолокация не поддерживается браузером");
       return;
     }
     setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        selectCity({
-          id: "geo",
-          name: "Моё местоположение",
-          country: "По координатам устройства",
-          latitude: Math.round(position.coords.latitude * 100) / 100,
-          longitude: Math.round(position.coords.longitude * 100) / 100,
-        });
-        setLocating(false);
-      },
-      () => {
-        setNotice(
-          "Не удалось определить местоположение. Выберите город через поиск.",
-        );
-        setLocating(false);
-      },
-      { timeout: 10000, maximumAge: 300000 },
-    );
+    try {
+      const position = await currentPosition();
+      selectCity({
+        id: "geo",
+        name: "Моё местоположение",
+        country: "По координатам устройства",
+        latitude: Math.round(position.coords.latitude * 100) / 100,
+        longitude: Math.round(position.coords.longitude * 100) / 100,
+      });
+    } catch {
+      setNotice("Не удалось определить местоположение. Выберите город через поиск.");
+    } finally {
+      setLocating(false);
+    }
   }
 
   const current = forecast?.current;
@@ -346,7 +357,7 @@ export default function App() {
             Погода в деталях<span>Ваш день. Ваш ритм.</span>
           </div>
           <Search onSelect={selectCity} />
-          {window.atmosDesktop ? <div className="desktop-actions"><button className="install-button" onClick={() => window.atmosDesktop?.setCompact(true)}>Мини-погода</button><button className="icon-button" aria-label="Свернуть в область уведомлений" onClick={() => window.atmosDesktop?.hide()}><ChevronRight size={20} /></button></div> : <AppInstall />}
+          {window.atmosDesktop ? <div className="desktop-actions"><button className="install-button" onClick={() => window.atmosDesktop?.setCompact(true)}>Мини-погода</button><button className="icon-button" aria-label="Свернуть в область уведомлений" onClick={() => window.atmosDesktop?.hide()}><ChevronRight size={20} /></button></div> : nativeMobile ? null : <AppInstall />}
           <button
             className="location-button"
             onClick={locate}
