@@ -42,4 +42,19 @@ describe("outfit advice", () => {
     expect(outfitForDay(day, [hour, { ...hour, wind: 30 }], hour).items).toContain("Защита от ветра");
     expect(outfitForDay(day, [hour], hour).items).not.toContain("Защита от ветра");
   });
+  it("changes the full outfit for office and active styles", () => {
+    const office = outfitForHour(hour, { occasion: "office", warmth: "balanced" });
+    const sport = outfitForHour(hour, { occasion: "sport", warmth: "balanced" });
+    expect(office.pieces.upper).toBe("Рубашка");
+    expect(office.pieces.outer).toBe("Жакет или пиджак");
+    expect(sport.pieces.upper).toBe("Лонгслив");
+    expect(sport.pieces.shoes).toBe("Кроссовки");
+  });
+  it("uses cold sensitivity without changing the displayed weather", () => {
+    const balanced = outfitForHour({ ...hour, feels: 16 });
+    const warmer = outfitForHour({ ...hour, feels: 16 }, { occasion: "casual", warmth: "warmer" });
+    expect(balanced.style).toBe("mild");
+    expect(warmer.style).toBe("cool");
+    expect(warmer.note).toContain("16° по ощущениям");
+  });
 });

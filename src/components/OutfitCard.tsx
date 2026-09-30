@@ -1,27 +1,44 @@
 import { useState } from "react";
-import { CloudRain, CloudSnow, Sparkles } from "lucide-react";
-import type { OutfitAdvice } from "../lib/outfit";
+import { CloudRain, CloudSnow, Settings2, Sparkles } from "lucide-react";
+import { defaultOutfitPreferences, outfitForDay, outfitForHour, type OutfitOccasion, type OutfitPreferences, type WarmthPreference } from "../lib/outfit";
+import type { Day, Hour } from "../lib/weather";
 import { readStorage, saveStorage } from "../lib/api";
 import "./OutfitCard.css";
 
 interface Props {
-  hour: OutfitAdvice;
-  day: OutfitAdvice;
+  hour: Hour;
+  day: Day;
+  remainingHours: Hour[];
   hourLabel: string;
 }
 
-/** @param {Props} props - Рекомендации для ближайшего часа и оставшегося дня. @returns {JSX.Element} Образ с переключением двух режимов. */
-export default function OutfitCard({ hour, day, hourLabel }: Props) {
+/** @param {Props} props - Прогноз для ближайшего часа и оставшегося дня. @returns {JSX.Element} Образ и настройки подбора. */
+export default function OutfitCard({ hour, day, remainingHours, hourLabel }: Props) {
   const [mode, setMode] = useState<"hour" | "day">("hour");
   const [gender, setGender] = useState<"woman" | "man">(() => readStorage<string>("atmos-outfit-gender", "woman") === "man" ? "man" : "woman");
-  const advice = mode === "hour" ? hour : day;
-  const bottomStyle = advice.title === "Одевайтесь слоями" ? "warm" : advice.style === "heat" || advice.style === "warm" ? "warm" : advice.style === "mild" ? "mild" : advice.style === "cool" ? "cool" : "cold";
-  const topStyle = advice.rain && advice.feels >= 7 && advice.feels < 22 ? "rain" : advice.style === "heat" || advice.style === "warm" ? "warm" : advice.style === "mild" ? "mild" : advice.style === "cool" ? "cool" : "cold";
+  const [preferences, setPreferences] = useState<OutfitPreferences>(() => {
+    const saved = readStorage<Partial<OutfitPreferences>>("atmos-outfit-preferences", defaultOutfitPreferences);
+    if (!saved || typeof saved !== "object") return defaultOutfitPreferences;
+    return {
+      occasion: saved.occasion === "office" || saved.occasion === "sport" ? saved.occasion : "casual",
+      warmth: saved.warmth === "warmer" || saved.warmth === "lighter" ? saved.warmth : "balanced",
+    };
+  });
+  const advice = mode === "hour" ? outfitForHour(hour, preferences) : outfitForDay(day, remainingHours, hour, preferences);
+  const bottomStyle = advice.style === "heat" || advice.style === "warm" ? "warm" : advice.style === "mild" ? "mild" : advice.style === "cool" ? "cool" : "cold";
+  const topStyle = advice.rain && (advice.style === "mild" || advice.style === "cool") ? "rain" : bottomStyle;
 
   /** @param {"woman" | "man"} next - Вариант персонажа. @returns {void} Сохраняет выбор только на этом устройстве. */
   function selectGender(next: "woman" | "man"): void {
     setGender(next);
     saveStorage("atmos-outfit-gender", next);
+  }
+
+  /** @param {Partial<OutfitPreferences>} change - Изменение стиля или комфорта. @returns {void} Сохраняет настройки на устройстве. */
+  function updatePreferences(change: Partial<OutfitPreferences>): void {
+    const next = { ...preferences, ...change };
+    setPreferences(next);
+    saveStorage("atmos-outfit-preferences", next);
   }
 
   return (
@@ -44,12 +61,31 @@ export default function OutfitCard({ hour, day, hourLabel }: Props) {
           <button type="button" aria-pressed={mode === "hour"} className={mode === "hour" ? "active" : ""} onClick={() => setMode("hour")}>Ближайший час</button>
           <button type="button" aria-pressed={mode === "day"} className={mode === "day" ? "active" : ""} onClick={() => setMode("day")}>На весь день</button>
         </div>
+        <details className="outfit-settings">
+          <summary><Settings2 size={16} /> Настроить образ</summary>
+          <div className="outfit-setting-group" aria-label="Стиль одежды">
+            <span>Стиль</span>
+            {([ ["casual", "Повседневный"], ["office", "Офис"], ["sport", "Активный"] ] as [OutfitOccasion, string][]).map(([value, label]) => (
+              <button type="button" key={value} aria-pressed={preferences.occasion === value} onClick={() => updatePreferences({ occasion: value })}>{label}</button>
+            ))}
+          </div>
+          <div className="outfit-setting-group" aria-label="Чувствительность к холоду">
+            <span>Комфорт</span>
+            {([ ["balanced", "Обычно"], ["warmer", "Мёрзну"], ["lighter", "Мне жарко"] ] as [WarmthPreference, string][]).map(([value, label]) => (
+              <button type="button" key={value} aria-pressed={preferences.warmth === value} onClick={() => updatePreferences({ warmth: value })}>{label}</button>
+            ))}
+          </div>
+        </details>
         <h2 id="outfit-heading">{advice.title}</h2>
         <p className="outfit-note">{mode === "hour" ? `${hourLabel} · ` : "До конца дня · "}{advice.note}</p>
-        <ul className="outfit-list">
-          {advice.items.map((item) => <li key={item}>{item}</li>)}
-        </ul>
-        <p className="outfit-disclaimer">Ориентир по прогнозу: выбирайте слои под свой комфорт.</p>
+        <dl className="outfit-list">
+          <div><dt>Верх</dt><dd>{advice.pieces.upper}</dd></div>
+          {advice.pieces.outer && <div><dt>Слой</dt><dd>{advice.pieces.outer}</dd></div>}
+          <div><dt>Низ</dt><dd>{advice.pieces.lower}</dd></div>
+          <div><dt>Обувь</dt><dd>{advice.pieces.shoes}</dd></div>
+          {advice.pieces.accessories.length > 0 && <div><dt>С собой</dt><dd>{advice.pieces.accessories.join(" · ")}</dd></div>}
+        </dl>
+        <p className="outfit-disclaimer">Фото показывает уровень утепления. Детали комплекта — в списке; выбирайте вещи под свой комфорт.</p>
       </div>
     </section>
   );

@@ -46,7 +46,6 @@ import {
 } from "./lib/weather";
 import { readStorage, saveStorage } from "./lib/api";
 import { useWeather } from "./lib/useWeather";
-import { outfitForDay, outfitForHour } from "./lib/outfit";
 
 const nativeMobile = Capacitor.isNativePlatform();
 
@@ -505,12 +504,9 @@ export default function App() {
           {forecast && current && day && nearestHour && (
             <>
               <OutfitCard
-                hour={outfitForHour(nearestHour)}
-                day={outfitForDay(
-                  forecast.days[0],
-                  remainingToday,
-                  { ...nearestHour, rain: forecast.days[0].rain },
-                )}
+                hour={nearestHour}
+                day={forecast.days[0]}
+                remainingHours={remainingToday}
                 hourLabel={`${nearestHour.time.slice(0, 10) !== forecast.days[0].date ? "Завтра к" : "К"} ${clock(nearestHour.time)}`}
               />
               <div className="overview-grid">
