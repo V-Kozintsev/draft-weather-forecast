@@ -1,6 +1,6 @@
 {
   "name": "atmos-weather",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "desktop/main.cjs",
   "author": "Viktor Kozintsev / PuskWeb",
   "description": "Atmos — погода, прогноз и мини-панель для рабочего стола",

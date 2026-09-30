@@ -853,7 +853,10 @@ export default function App() {
           </span>
           <div>
             <a href="https://api.met.no/" target="_blank" rel="noreferrer">
-              Прогноз MET Norway
+              Данные MET Norway · адаптированы
+            </a>
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
+              CC BY 4.0
             </a>
             <a href="https://www.geonames.org/" target="_blank" rel="noreferrer">
               Города GeoNames

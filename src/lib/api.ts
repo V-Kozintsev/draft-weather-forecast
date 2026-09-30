@@ -57,7 +57,7 @@ async function request<T>(url: string, signal?: AbortSignal): Promise<T> {
   debug("request", { service });
   try {
     if (service === "api.met.no" && Capacitor.isNativePlatform()) {
-      const response = await CapacitorHttp.get({ url, headers: { "User-Agent": "Atmos/2.2 (https://github.com/V-Kozintsev/atmos-weather)" }, connectTimeout: 12000, readTimeout: 12000 });
+      const response = await CapacitorHttp.get({ url, headers: { "User-Agent": "Atmos/2.2.1 (https://github.com/V-Kozintsev/atmos-weather)" }, connectTimeout: 12000, readTimeout: 12000 });
       if (signal?.aborted) throw signal.reason;
       if (response.status < 200 || response.status >= 300) throw new Error(`HTTP ${response.status}`);
       const data = response.data as T;
